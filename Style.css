@@ -1,8 +1,42 @@
 body {
-    background: #111;
+    background-color: #111;
     background-attachment: fixed;
     background-size: cover;
     color: #f9f9f9;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    cursor: auto; /* Volvemos al cursor nativo para asegurar que siempre sea visible */
+    overflow: hidden; /* Evita scrolls fantasma si una partícula se va muy lejos */
+    transition: background-color 4s ease-in-out; /* Para la transición ambiental narrativa */
+}
+
+/* Efecto elegante de lineas tipo televisor retro CRT */
+body::after {
+    content: " ";
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.1),
+        rgba(0, 0, 0, 0.1) 1px,
+        transparent 1px,
+        transparent 3px
+    );
+    pointer-events: none;
+    z-index: 99999;
+    animation: crtPulse 4s infinite; /* Respiración de pantalla */
+}
+
+@keyframes crtPulse {
+    0%, 100% { opacity: 0.85; }
+    50% { opacity: 1; }
+}
+
+/* Cursors interactivos seguros para toda UI clickable */
+.box, .si, .no, .weno, .dale, .salu, .copy, .reproducir, span.go, .carta, .rega, .ojo, .afi, .anillo, .marry, .meme, .meme2, .yes, #start-overlay, #music-cover, .ca1, .ca2, .ca3 {
+    cursor: pointer !important;
 }
 
 
@@ -28,8 +62,12 @@ A {
 
 #f1 {
     position: absolute;
-    width: 600px;
-    height: 400px;
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    min-height: 400px;
+    padding: 20px;
+    box-sizing: border-box;
     display: none; /* Ahora arranca oculto hasta que haces clic en JUGAR */
     align-items: center;
     justify-content: center;
@@ -41,6 +79,7 @@ A {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-wrap: wrap; /* Soporte móvil para botones */
 }
 
 .si,
@@ -88,8 +127,12 @@ span.go,
 #f5,
 #f6 {
     position: absolute;
-    width: 600px;
-    height: 400px;
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    min-height: 400px;
+    padding: 20px;
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -99,9 +142,11 @@ span.go,
 
 #f7 {
     position: absolute;
-    width: 850px;
-    height: 550px;
-    background: url(https://i.imgur.com/kx3psEN.png);
+    width: 100%;
+    max-width: 850px;
+    height: 100%;
+    max-height: 550px;
+    background: url(https://i.imgur.com/kx3psEN.png) center center;
     background-size: cover;
     display: none;
     align-items: center;
@@ -112,9 +157,9 @@ span.go,
 #f8,
 #f9 {
     position: absolute;
-    bottom: 150px;
-    left: 150px;
-    right: 150px;
+    bottom: 15%;
+    left: 20px;
+    right: 20px;
     display: none;
     align-items: center;
     justify-content: center;
@@ -123,36 +168,48 @@ span.go,
 
 #f10 {
     position: absolute;
-    bottom: 140px;
-    left: 150px;
-    right: 150px;
-    height: 160px;
+    top: 40%;
+    transform: translateY(30%); /* Levantamos los cofres justo hacia el centro de la escena */
+    left: 10px;
+    right: 10px;
+    height: auto;
     display: none;
     align-items: center;
     justify-content: center;
+    flex-wrap: wrap; /* Soporte para las cajas en móvil */
 }
 
 .box {
     width: 100px;
     height: 100px;
-    background: url(https://i.imgur.com/ViqP2fB.png);
-    background-size: cover;
-    margin: 20px;
+    background: url(https://i.imgur.com/ViqP2fB.png) no-repeat center center;
+    background-size: 100%;
+    margin: 10px 20px;
     cursor: pointer;
+    transition: transform 0.2s ease-out, filter 0.2s ease-out;
 }
 
 .box:hover {
-    background: url(https://i.imgur.com/FIrcwmM.png);
-    background-size: cover;
+    background: url(https://i.imgur.com/FIrcwmM.png) no-repeat center center;
+    background-size: 100%;
+    transform: translateY(-8px);
+    filter: drop-shadow(0 10px 15px rgba(255, 255, 255, 0.15));
+}
+
+.box:active {
+    transform: translateY(-2px) scale(0.95);
+    filter: drop-shadow(0 2px 5px rgba(255, 255, 255, 0.4));
 }
 
 #f11 {
     position: absolute;
-    position: absolute;
-    top: 120px;
+    top: 10%;
+    left: 10px;
+    right: 10px;
     transform: scale(.7);
     display: none;
     flex-direction: column;
+    align-items: center;
 }
 
 #f12 {
@@ -168,28 +225,48 @@ span.go,
     flex-direction: column;
 }
 
-#f14 {
+#f14, #f15 {
     background: #111;
     position: absolute;
     top: 0px;
     right: 0px;
     bottom: 0px;
     left: 0px;
+    padding: 30px;
+    box-sizing: border-box;
     font: 26px 'VT323', monospace;
     text-align: justify;
     display: none;
+    overflow-y: auto; /* Permite desplazamiento si la carta es muy larga en móviles */
 }
 
-#f15 {
+/* CUSTOM SCROLLBAR PARA EL TEXTO LARGO */
+#f14::-webkit-scrollbar,
+#f15::-webkit-scrollbar,
+#f22::-webkit-scrollbar {
+    width: 8px; /* Bara delgadita tipo retro */
+}
+
+#f14::-webkit-scrollbar-track,
+#f15::-webkit-scrollbar-track,
+#f22::-webkit-scrollbar-track {
     background: #111;
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
-    font: 26px 'VT323', monospace;
-    text-align: justify;
-    display: none;
+    border-radius: 4px;
+}
+
+#f14::-webkit-scrollbar-thumb,
+#f15::-webkit-scrollbar-thumb,
+#f22::-webkit-scrollbar-thumb {
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 0 5px rgba(255,255,255,0.8);
+}
+
+#f14::-webkit-scrollbar-thumb:hover,
+#f15::-webkit-scrollbar-thumb:hover,
+#f22::-webkit-scrollbar-thumb:hover {
+    background: var(--blue);
+    box-shadow: 0 0 10px var(--blue);
 }
 
 #f16 {
@@ -259,33 +336,34 @@ span.go,
 #f22 {
     font: 26px 'VT323', monospace;
     text-align: justify;
+    padding: 30px;
+    box-sizing: border-box;
+    overflow-y: auto;
 }
 
 h1, h2, h3 {
     position: relative;
-    overflow: visible; /* Elimina límite restrictivo original */
-    clip-path: inset(-35px 0px -35px -35px); /* Magia: Corta al ras la derecha para ocultar letras futuras, pero da 35px de libertad a las demás direcciones para que brille el neón */
+    overflow: visible;
     color: #fff;
-    white-space: nowrap;
+    white-space: normal; /* Permite que el texto baje a la siguiente línea */
+    word-wrap: break-word;
     margin: 0 auto;
     letter-spacing: .03em;
     font: 30px 'VT323', monospace;
-    width: 0px; 
-    text-align: left;
-    opacity: 0; /* Oculto nativamente en CSS para evitar que se vea cortado antes de que nazca el JS */
+    text-align: center;
+    width: 100%;
+    opacity: 0; /* Aparece por JS */
 }
 
-.typing-active::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    height: 24px;   /* Tamaño un poco más corto que la caja (aprox. el alto de la letra) */
+.typer-cursor {
+    display: inline-block;
+    vertical-align: middle;
+    height: 24px;   /* Tamaño un poco más corto que la letra */
     width: 14px;    /* Cursor grueso estilo CMD */
     background: #fff;
     box-shadow: 0 0 6px #fff, 0 0 12px #fff;
     animation: blink-caret .75s step-end infinite;
+    margin-left: 4px;
 }
 
 .img1 {
@@ -298,10 +376,11 @@ h1, h2, h3 {
 #ico {
     position: absolute;
     bottom: 5px;
-    left: 360px;
+    left: 50%;
+    transform: translateX(-50%); /* Centrado correctamente en escritorio y móviles */
     width: 130px;
     height: 130px;
-    background: url(https://i.imgur.com/SVZxE8c.png);
+    background: url(https://i.imgur.com/SVZxE8c.png) no-repeat center center;
     background-size: 100%;
 }
 
@@ -361,19 +440,45 @@ span.go,
 
 #music-title {
     font: 26px 'VT323', monospace;
-    padding-bottom: 3px;
-    /* color y text-shadow los gestiona JS desde la portada */
+    padding: 10px; /* Expansión simétrica para que el resplandor de text-shadow no sufra clipping */
+    margin: -10px; /* Lo anulamos para que la maquetación visual no se mueva */
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #music-author {
     font: 20px 'VT323', monospace;
-    /* color y text-shadow los gestiona JS desde la portada */
+    padding: 10px;
+    margin: -10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* Brillo rojo para el texto en rojo */
 .yes[style*="color: red"] {
     text-shadow: 0 0 4px red, 0 0 8px red, 0 0 16px red !important;
 }
+
+/* Efecto hover general de las opciones para mayor feedback */
+.si, .no, .weno, .dale, .salu, .copy, .reproducir, span.go, .carta, .rega, .ojo, .afi, .anillo, .marry, .meme, .meme2, .yes {
+    transition: transform 0.2s ease, text-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.si:hover, .no:hover, .weno:hover, .dale:hover, .salu:hover, .copy:hover, .reproducir:hover, span.go:hover, .carta:hover, .rega:hover, .ojo:hover, .afi:hover, .anillo:hover, .marry:hover, .meme:hover, .meme2:hover {
+    transform: scale(1.1);
+    opacity: 1 !important;
+    text-shadow: 0 0 8px rgba(255,255,255,0.8), 0 0 16px rgba(255,255,255,0.4);
+}
+
+.yes:hover {
+    transform: scale(1.1);
+}
+
+.si:active, .no:active, .weno:active, .dale:active, .salu:active, .copy:active, .reproducir:active, span.go:active, .carta:active, .rega:active, .ojo:active, .afi:active, .anillo:active, .marry:active, .meme:active, .meme2:active, .yes:active {
+    transform: scale(0.95) !important;
+    opacity: 0.8 !important;
+}
+
 
 /* --- PANEL DE LETRAS ESTILO SPOTIFY --- */
 #lyrics-container {
@@ -420,4 +525,109 @@ span.go,
     cursor: default;
     white-space: normal;
     word-break: break-word;
+}
+
+/* --- MASTER POLISH EFFECTS --- */
+.spin-vinyl {
+    animation: rotateVinyl 8s linear infinite;
+}
+.paused-vinyl {
+    animation-play-state: paused;
+}
+@keyframes rotateVinyl {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.particle {
+    position: fixed;
+    bottom: -50px;
+    background: #fff;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 1; /* Al fondo, justo detrás de las letras */
+    animation: floatUp linear infinite;
+    image-rendering: pixelated; /* Textura crujiente 8bits */
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(10vh) scale(0.5); opacity: 0; }
+    10% { opacity: 0.6; }
+    90% { opacity: 0.6; }
+    100% { transform: translateY(-120vh) scale(1.2); opacity: 0; }
+}
+
+/* --- CINEMATIC GLITCHES --- */
+
+.screen-flash {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: #fff;
+    z-index: 100000;
+    pointer-events: none;
+    opacity: 0;
+    animation: flashAnim 0.6s ease-out;
+}
+
+@keyframes flashAnim {
+    0% { opacity: 0.8; }
+    100% { opacity: 0; }
+}
+
+.text-glitch {
+    animation: textFlicker 0.4s ease-in-out;
+}
+@keyframes textFlicker {
+    0% { opacity: 0.8; transform: skewX(0deg); text-shadow: 2px 0 rgba(255,0,0,0.8), -2px 0 rgba(0,255,255,0.8); }
+    20% { opacity: 1; transform: skewX(-15deg); text-shadow: none; }
+    40% { opacity: 0.6; transform: skewX(15deg); text-shadow: -2px 0 rgba(255,0,0,0.8), 2px 0 rgba(0,255,255,0.8); }
+    60% { opacity: 1; transform: skewX(0deg); text-shadow: none; }
+    100% { opacity: 1; text-shadow: inherit; }
+}
+
+/* ====== AJUSTES MÓVILES ====== */
+@media screen and (max-width: 768px) {
+    h1, h2, h3 {
+        font-size: 24px; /* Un poco más pequeño para caber mejor */
+        padding: 5px 0;
+    }
+    
+    .typer-cursor {
+        height: 18px;
+        width: 10px;
+    }
+    
+    .si, .no, .weno, .dale, .salu, .copy, .reproducir, span.go, .carta, .rega, .ojo, .afi, .anillo, .marry, .meme, .meme2, .yes {
+        font-size: 22px;
+        margin: 5px;
+    }
+
+    #music-player {
+        top: 10px !important;
+        left: 10px !important;
+        right: 10px !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        box-sizing: border-box;
+    }
+
+    #music-cover {
+        width: 45px !important;
+        height: 45px !important;
+    }
+
+    #music-title { font-size: 20px !important; }
+    #music-author { font-size: 14px !important; }
+
+    #f14, #f15, #f22 {
+        font-size: 20px;
+        padding: 20px;
+    }
+
+    .box { margin: 5px; }
+
+    #ico {
+        width: 90px;
+        height: 90px;
+    }
 }
