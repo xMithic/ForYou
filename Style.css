@@ -1,0 +1,423 @@
+body {
+    background: #111;
+    background-attachment: fixed;
+    background-size: cover;
+    color: #f9f9f9;
+}
+
+
+:root {
+    --pink: #ff60b4;
+    --blue: #72efff;
+}
+
+A {
+    text-decoration: none;
+}
+
+#out-all {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#f1 {
+    position: absolute;
+    width: 600px;
+    height: 400px;
+    display: none; /* Ahora arranca oculto hasta que haces clic en JUGAR */
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background: #111;
+}
+
+.decidir {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.si,
+.no,
+.weno,
+.dale,
+.salu,
+.copy,
+.reproducir,
+span.go,
+.carta {
+    font: 25px 'VT323', monospace;
+    margin: 10px;
+    opacity: 0;
+    animation-name: visible;
+    animation-duration: 1s;
+    animation-delay: 3.5s;
+    animation-fill-mode: forwards;
+    cursor: pointer;
+    color: #f9f9f9;
+}
+
+.rega,
+.ojo,
+.afi,
+.anillo,
+.marry,
+.meme,
+.meme2,
+.yes {
+    font: 25px 'VT323', monospace;
+    margin: 10px;
+    opacity: 0;
+    animation-name: visible;
+    animation-duration: 1s;
+    animation-delay: 7s;
+    animation-fill-mode: forwards;
+    cursor: pointer;
+    text-align: center;
+}
+
+#f2,
+#f3,
+#f4,
+#f5,
+#f6 {
+    position: absolute;
+    width: 600px;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    display: none;
+}
+
+#f7 {
+    position: absolute;
+    width: 850px;
+    height: 550px;
+    background: url(https://i.imgur.com/kx3psEN.png);
+    background-size: cover;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#f8,
+#f9 {
+    position: absolute;
+    bottom: 150px;
+    left: 150px;
+    right: 150px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#f10 {
+    position: absolute;
+    bottom: 140px;
+    left: 150px;
+    right: 150px;
+    height: 160px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.box {
+    width: 100px;
+    height: 100px;
+    background: url(https://i.imgur.com/ViqP2fB.png);
+    background-size: cover;
+    margin: 20px;
+    cursor: pointer;
+}
+
+.box:hover {
+    background: url(https://i.imgur.com/FIrcwmM.png);
+    background-size: cover;
+}
+
+#f11 {
+    position: absolute;
+    position: absolute;
+    top: 120px;
+    transform: scale(.7);
+    display: none;
+    flex-direction: column;
+}
+
+#f12 {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+    background: #111;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#f14 {
+    background: #111;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    font: 26px 'VT323', monospace;
+    text-align: justify;
+    display: none;
+}
+
+#f15 {
+    background: #111;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    font: 26px 'VT323', monospace;
+    text-align: justify;
+    display: none;
+}
+
+#f16 {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    left: 0px;
+    bottom: 0px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#f17 {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.ring {
+    width: 150px;
+    height: 150px;
+    background: url(https://i.imgur.com/oEs8TdL.png);
+    background-size: cover;
+}
+
+.ichigo {
+    width: 200px;
+    height: 200px;
+    background: url(https://i.imgur.com/hGY3pGX.png);
+    background-size: cover;
+}
+
+#f18 {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+    background: #111;
+    display: none;
+}
+
+#f19,
+#f20,
+#f21,
+#f22 {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+    background: #111;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#f22 {
+    font: 26px 'VT323', monospace;
+    text-align: justify;
+}
+
+h1, h2, h3 {
+    position: relative;
+    overflow: visible; /* Elimina límite restrictivo original */
+    clip-path: inset(-35px 0px -35px -35px); /* Magia: Corta al ras la derecha para ocultar letras futuras, pero da 35px de libertad a las demás direcciones para que brille el neón */
+    color: #fff;
+    white-space: nowrap;
+    margin: 0 auto;
+    letter-spacing: .03em;
+    font: 30px 'VT323', monospace;
+    width: 0px; 
+    text-align: left;
+    opacity: 0; /* Oculto nativamente en CSS para evitar que se vea cortado antes de que nazca el JS */
+}
+
+.typing-active::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 24px;   /* Tamaño un poco más corto que la caja (aprox. el alto de la letra) */
+    width: 14px;    /* Cursor grueso estilo CMD */
+    background: #fff;
+    box-shadow: 0 0 6px #fff, 0 0 12px #fff;
+    animation: blink-caret .75s step-end infinite;
+}
+
+.img1 {
+    width: 150px;
+    height: 150px;
+    background: url(https://i.imgur.com/QLrOZMR.png);
+    background-size: cover;
+}
+
+#ico {
+    position: absolute;
+    bottom: 5px;
+    left: 360px;
+    width: 130px;
+    height: 130px;
+    background: url(https://i.imgur.com/SVZxE8c.png);
+    background-size: 100%;
+}
+
+/* El crecimiento dinámico para la animación ahora es manejado en JS */
+
+@keyframes visible {
+    from {
+        opacity: 0
+    }
+
+    to {
+        opacity: 1
+    }
+}
+
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+    from,
+    to {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+/* --- ESTILOS DE BRILLO NEÓN --- */
+h1,
+h2,
+h3 {
+    text-shadow: 0 0 4px rgba(255,255,255,0.6), 0 0 10px rgba(255,255,255,0.3);
+    padding: 15px 0;
+}
+
+.si,
+.no,
+.weno,
+.dale,
+.salu,
+.copy,
+.reproducir,
+span.go,
+.carta,
+.rega,
+.ojo,
+.afi,
+.anillo,
+.marry,
+.meme,
+.meme2,
+.yes,
+#f14,
+#f22 {
+    text-shadow: 0 0 4px rgba(255,255,255,0.5), 0 0 8px rgba(255,255,255,0.2);
+}
+
+#music-title {
+    font: 26px 'VT323', monospace;
+    padding-bottom: 3px;
+    /* color y text-shadow los gestiona JS desde la portada */
+}
+
+#music-author {
+    font: 20px 'VT323', monospace;
+    /* color y text-shadow los gestiona JS desde la portada */
+}
+
+/* Brillo rojo para el texto en rojo */
+.yes[style*="color: red"] {
+    text-shadow: 0 0 4px red, 0 0 8px red, 0 0 16px red !important;
+}
+
+/* --- PANEL DE LETRAS ESTILO SPOTIFY --- */
+#lyrics-container {
+    -webkit-mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0,0,0,0.6) 18%,
+        rgba(0,0,0,1) 38%,
+        rgba(0,0,0,1) 62%,
+        rgba(0,0,0,0.6) 82%,
+        transparent 100%
+    );
+    mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0,0,0,0.6) 18%,
+        rgba(0,0,0,1) 38%,
+        rgba(0,0,0,1) 62%,
+        rgba(0,0,0,0.6) 82%,
+        transparent 100%
+    );
+    /* Ocultar barra de scroll */
+    scrollbar-width: none;
+    scroll-behavior: smooth; /* Para scrollIntoView nativo */
+}
+#lyrics-container::-webkit-scrollbar { display: none; }
+
+.lyric-scroll-line {
+    font-family: 'VT323', monospace;
+    font-size: 18px;
+    color: rgba(255,255,255,0.35);
+    text-align: center;
+    padding: 5px 12px;
+    line-height: 1.5;
+    opacity: 0.35;
+    transform: scale(0.9);
+    transform-origin: center center;
+    /* 80ms: rápido para estar en sincronía, pero suave visualmente */
+    transition:
+        color 0.08s linear,
+        opacity 0.08s linear,
+        transform 0.08s linear,
+        text-shadow 0.08s linear;
+    cursor: default;
+    white-space: normal;
+    word-break: break-word;
+}
