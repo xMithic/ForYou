@@ -1,3 +1,7 @@
+* {
+    -webkit-tap-highlight-color: transparent;
+}
+
 body {
     background-color: #111;
     background-attachment: fixed;
@@ -37,6 +41,7 @@ body::after {
 /* Cursors interactivos seguros para toda UI clickable */
 .box, .si, .no, .weno, .dale, .salu, .copy, .reproducir, span.go, .carta, .rega, .ojo, .afi, .anillo, .marry, .meme, .meme2, .yes, #start-overlay, #music-cover, .ca1, .ca2, .ca3 {
     cursor: pointer !important;
+    -webkit-tap-highlight-color: transparent;
 }
 
 
