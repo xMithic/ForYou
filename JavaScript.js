@@ -47,6 +47,10 @@ const audioFondo = new Audio(CANCION_FONDO_URL);
 audioFondo.volume = VOLUMEN_MUSICA_FONDO;
 audioFondo.loop = true;
 
+// Añadido para hacer girar el vinilo (portada Spotify)
+audioFondo.addEventListener('play', () => $('#music-cover').addClass('spin-vinyl').removeClass('paused-vinyl'));
+audioFondo.addEventListener('pause', () => $('#music-cover').addClass('paused-vinyl'));
+
 // ======== SISTEMA DE LETRAS SINCRONIZADAS ESTILO SPOTIFY ========
 let parsedLyrics = [];
 let currentLyricIndex = -1;
@@ -237,6 +241,7 @@ audioClick.volume = VOLUMEN_SONIDO_CLICK;
 
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 let typeTimeouts = [];
+let typeIntervals = [];
 
 function playUndertaleBlip() {
     if (SONIDO_ESCRITURA_URL !== "") {
@@ -270,111 +275,140 @@ function playUndertaleBlip() {
 function triggerSoundForNextScreen(nextDivId) {
     typeTimeouts.forEach(t => clearTimeout(t));
     typeTimeouts = [];
+    typeIntervals.forEach(i => clearInterval(i));
+    typeIntervals = [];
 
     // Limpia el cursor de cualquier otra pantalla
-    $('h1, h2, h3').removeClass('typing-active');
+    $('.typer-cursor').remove();
 
     // Encuentra los textos en la nueva pantalla
     const els = $(nextDivId).find('h1, h2, h3');
     
     els.each(function() {
         const $el = $(this);
-        const text = $el.text();
+        
+        // Guardamos el texto original para no perderlo al re-escribir
+        if (!$el.data('original-text')) {
+            $el.data('original-text', $el.text().trim());
+        }
+        
+        const text = $el.data('original-text');
         if (!text) return;
 
-        // JS toma control total: medimos el tamaño exacto y desaparecemos el texto (opacity 0) para que no brille antes de tiempo
-        $el.css({ 'transition': 'none', 'width': 'max-content', 'opacity': '0' });
-        let targetWidth = $el.width();
-        
-        // Devolvemos a width 0 y forzamos render
-        $el.css({ 'width': '0px' });
-        $el[0].offsetHeight; 
+        // Vaciamos el texto y lo ocultamos temporalmente
+        $el.empty();
+        $el.css({ 'opacity': '0' });
         
         const delay = $el.prop('tagName') === 'H2' ? 3500 : 0;
         
-        // Programamos que se deslice desde 0 hasta el ancho exacto medido
-        setTimeout(() => {
-            // Le quita el cursor a otros textos de la escena y se lo pone a este
-            els.removeClass('typing-active');
-            $el.addClass('typing-active');
+        let targetTimeout = setTimeout(() => {
+            // Quitamos cursores de otros textos
+            $('.typer-cursor').remove();
+            
+            // Hacemos visible el contenedor
+            $el.css({ 'opacity': '1' });
+            
+            let i = 0;
+            const speed = 3500 / text.length;
+            
+            // Añadimos el cursor inicialmente
+            $el.append('<span class="typer-cursor"></span>');
+            
+            let typeInterval = setInterval(() => {
+                // Obtenemos el progreso actual del texto
+                let currentText = text.substring(0, i + 1);
+                
+                // --- DINAMIC HIGHLIGHT: Resaltamos "1-3-2" en tiempo real mientras se genera ---
+                let currentHTML = currentText.replace(/1-3-2/g, '<span style="color: #ffff00 !important; text-shadow: 0 0 10px #ffff00 !important;">1-3-2</span>');
+                
+                $el.html(currentHTML);
+                $el.append('<span class="typer-cursor"></span>');
+                
+                playUndertaleBlip();
+                i++;
+                
+                if (i >= text.length) {
+                    clearInterval(typeInterval);
+                }
+            }, speed);
+            
+            typeIntervals.push(typeInterval);
 
-            $el.css({
-                'opacity': '1', // ¡Recién al arrancar el width, encendemos el neón!
-                'width': `${targetWidth + 18}px`, // Da espacio al cursor CMD sin romper de línea
-                'transition': `width 3500ms steps(${text.length}, end)`
-            });
         }, delay);
         
-        const speed = 3500 / text.length; 
-
-        for (let i = 0; i < text.length; i++) {
-            let t = setTimeout(() => {
-                playUndertaleBlip();
-            }, delay + (i * speed));
-            typeTimeouts.push(t);
-        }
+        typeTimeouts.push(targetTimeout);
     });
 }
 
 $('.no').on("click", function () {
-    $('#f1').css('display', 'none');
-    $('#f2').css('display', 'flex');
-    triggerSoundForNextScreen('#f2');
+    $('#f1').fadeOut(400, function() {
+        $('#f2').css('display', 'flex').hide().fadeIn(400);
+        triggerSoundForNextScreen('#f2');
+    });
 });
 
 $('.weno').on("click", function () {
-    $('#f2').css('display', 'none');
-    $('#f1').css('display', 'flex');
-    triggerSoundForNextScreen('#f1');
+    $('#f2').fadeOut(400, function() {
+        $('#f1').css('display', 'flex').hide().fadeIn(400);
+        triggerSoundForNextScreen('#f1');
+    });
 });
 
 $('.si').on("click", function () {
-    $('#f1').css('display', 'none');
-    $('#f3').css('display', 'flex');
-    triggerSoundForNextScreen('#f3');
+    $('#f1').fadeOut(400, function() {
+        $('#f3').css('display', 'flex').hide().fadeIn(400);
+        triggerSoundForNextScreen('#f3');
+    });
 });
 
 $('.dale').on("click", function () {
-    $('#f3').css('display', 'none');
-    $('#f4').css('display', 'flex');
-    triggerSoundForNextScreen('#f4');
+    $('#f3').fadeOut(400, function() {
+        $('#f4').css('display', 'flex').hide().fadeIn(400);
+        triggerSoundForNextScreen('#f4');
+    });
 });
 
 $('.rega').on("click", function () {
-    $('#f4').css('display', 'none');
-    $('#f5').css('display', 'flex');
-    triggerSoundForNextScreen('#f5');
+    $('#f4').fadeOut(400, function() {
+        $('#f5').css('display', 'flex').hide().fadeIn(400);
+        triggerSoundForNextScreen('#f5');
+    });
 });
 
 $('.ojo').on("click", function () {
-    $('#f5').css('display', 'none');
-    $('#f6').css('display', 'flex');
-    triggerSoundForNextScreen('#f6');
+    $('#f5').fadeOut(400, function() {
+        $('#f6').css('display', 'flex').hide().fadeIn(400);
+        triggerSoundForNextScreen('#f6');
+    });
 });
 
 $('.afi').on("click", function () {
-    $('#f6').css('display', 'none');
-    $('#f7').css('display', 'flex');
-    $('#f8').css('display', 'flex');
-    triggerSoundForNextScreen('#f8');
+    $('#f6').fadeOut(400, function() {
+        $('#f7').css('display', 'flex').hide().fadeIn(400);
+        $('#f8').css('display', 'flex').hide().fadeIn(400);
+        triggerSoundForNextScreen('#f8');
+    });
 });
 
 $('.salu').on("click", function () {
-    $('#f8').css('display', 'none');
-    $('#f9').css('display', 'flex');
-    triggerSoundForNextScreen('#f9');
+    $('#f8').fadeOut(400, function() {
+        $('#f9').css('display', 'flex').hide().fadeIn(400);
+        triggerSoundForNextScreen('#f9');
+    });
 });
 
 $('.copy').on("click", function () {
-    $('#f9').css('display', 'none');
-    $('#f10').css('display', 'flex'); 
-    $('#f11').css('display', 'flex');
-    triggerSoundForNextScreen('#f11');
+    $('#f9').fadeOut(400, function() {
+        $('#f10').css('display', 'flex').hide().fadeIn(400); 
+        $('#f11').css('display', 'flex').hide().fadeIn(400);
+        triggerSoundForNextScreen('#f11');
+    });
 });
 
 $('span.go').on("click", function () {
-    $('#f13').css('display', 'none');
-    $('#f14').css('display', 'block');
+    $('#f13').fadeOut(400, function() {
+        $('#f14').css('display', 'block').hide().fadeIn(400);
+    });
 });
 
 // ¡Nuevo Evento para el Reproductor Musical Nativo!
@@ -395,55 +429,77 @@ $('.reproducir').on("click", function () {
 });
 
 $('.ca1').on("click", function () {
-    $('#f12').css('display', 'flex');
-    $('#f13').css('display', 'block');
-    triggerSoundForNextScreen('#f13');
+    $('#f11').fadeOut(400, function() {
+        $('#f12').css('display', 'flex').hide().fadeIn(400);
+        $('#f13').css('display', 'block').hide().fadeIn(400);
+        triggerSoundForNextScreen('#f13');
+    });
 });
 
 $('.ca3').on("click", function () {
-    $('#f15').css('display', 'block');
-    $('#f16').css('display', 'flex');
-    triggerSoundForNextScreen('#f16');
+    $('#f11').fadeOut(400, function() {
+        $('#f15').css('display', 'block').hide().fadeIn(400);
+        $('#f16').css('display', 'flex').hide().fadeIn(400);
+        triggerSoundForNextScreen('#f16');
+    });
 });
 
 $('.ca2').on("click", function () {
-    $('#f18').css('display', 'block');
-    $('#f19').css('display', 'flex');
-    triggerSoundForNextScreen('#f19');
+    $('#f11').fadeOut(400, function() {
+        $('#f18').css('display', 'block').hide().fadeIn(400);
+        $('#f19').css('display', 'flex').hide().fadeIn(400);
+        triggerSoundForNextScreen('#f19');
+    });
 });
 
 $('.carta').on("click", function () {
-    $('#f12').css('display', 'none');
+    $('#f12').fadeOut(400, function() {
+        $('#f11').css('display', 'flex').hide().fadeIn(400);
+    });
 });
 
 $('.anillo').on("click", function () {
-    $('#f16').css('display', 'none');
-    $('#f17').css('display', 'flex');
-    triggerSoundForNextScreen('#f17');
+    $('#f16').fadeOut(400, function() {
+        $('#f17').css('display', 'flex').hide().fadeIn(400);
+        triggerSoundForNextScreen('#f17');
+        $('body').css('background-color', '#200'); /* Pinta toda la atmósfera de oscuridad romántica */
+    });
 });
 
 $('.marry').on("click", function () {
-    $('#f15').css('display', 'none');
-    $('#f17').css('display', 'none');
+    $('#f15, #f17').fadeOut(400, function() {
+        $('#f11').css('display', 'flex').hide().fadeIn(400);
+    });
 });
 
 $('.meme').on("click", function () {
-    $('#f19').css('display', 'none');
-    $('#f20').css('display', 'flex');
-    triggerSoundForNextScreen('#f20');
+    $('#f19').fadeOut(400, function() {
+        $('#f20').css('display', 'flex').hide().fadeIn(400);
+        triggerSoundForNextScreen('#f20');
+    });
 });
 
 $('.meme2').on("click", function () {
-    $('#f20').css('display', 'none');
-    $('#f21').css('display', 'flex');
-    triggerSoundForNextScreen('#f21');
+    $('#f20').fadeOut(400, function() {
+        $('#f21').css('display', 'flex').hide().fadeIn(400);
+        triggerSoundForNextScreen('#f21');
+    });
 });
 
 $('.yes').on("click", function () {
-    $('#f21').css('display', 'none');
-    $('#f22').css('display', 'flex');
-    triggerSoundForNextScreen('#f22');
+    triggerFlash();
+    $('#f21').fadeOut(400, function() {
+        $('#f22').css('display', 'flex').hide().fadeIn(400);
+        triggerSoundForNextScreen('#f22');
+    });
 });
+
+// Función para el Destello Cinemático
+function triggerFlash() {
+    const $flash = $('<div class="screen-flash"></div>');
+    $('body').append($flash);
+    setTimeout(() => $flash.remove(), 700);
+}
 
 // --- EFECTOS DE SONIDO UI ---
 function playHoverSound() {
@@ -595,4 +651,49 @@ $(interactionSelectors).on('mouseenter', function() {
 
 $(interactionSelectors).on('mousedown', function() {
     playClickSound();
+    // Efecto de Glitch Visual
+    const $t = $(this);
+    $t.addClass('text-glitch');
+    setTimeout(() => $t.removeClass('text-glitch'), 400);
+});
+
+/* --- MASTER POLISH: GENERADOR DE PARTÍCULAS AMBIENTALES --- */
+$(document).ready(function() {
+    // ASEGURAR VISIBILIDAD DE CURSOR - NIVEL MÁXIMO (Para que no falle nunca)
+    $('*').css('cursor', 'auto');
+    $('body, html').css('cursor', 'auto');
+    
+    // Inyectar Capa de Flash
+    $('body').prepend('<div id="flash-layer"></div>');
+
+    const numParticles = 25;
+    for(let i=0; i < numParticles; i++) {
+        createParticle();
+    }
+    
+    function createParticle() {
+        // Píxeles más pequeños y sutiles: 2px, 3px o 4px
+        const size = Math.floor(Math.random() * 3) + 2; 
+        const isBlue = Math.random() > 0.5;
+        // Colores neon solidos 100% (La opacidad y el fade se gestiona en Style.css)
+        const color = isBlue ? '#72efff' : '#ff60b4';
+        
+        const $p = $('<div class="particle"></div>').css({
+            left: Math.random() * 100 + 'vw',
+            width: size + 'px',
+            height: size + 'px',
+            background: color,
+            boxShadow: 'none', /* Píxel plano */
+            animationDuration: (Math.random() * 15 + 15) + 's',
+            animationDelay: (Math.random() * 5) + 's'
+        });
+        
+        $('body').append($p);
+        
+        // Destruimos y recreamos para mantener el ciclo infinito y cuidar la RAM
+        setTimeout(() => {
+            $p.remove();
+            createParticle();
+        }, 32000);
+    }
 });
