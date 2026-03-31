@@ -1,0 +1,210 @@
+/* =========================================
+   COMPONENTES INTERACTIVOS
+   ========================================= */
+
+/* --- Cursores clickables --- */
+.box, .si, .no, .weno, .dale, .salu, .copy, .reproducir, span.go, .carta,
+.rega, .ojo, .afi, .anillo, .marry, .meme, .meme2, .yes, #start-overlay,
+#music-cover, .ca1, .ca2, .ca3 {
+    cursor: pointer !important;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* --- Contenedor de decisiones --- */
+.decidir {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* --- Botones de opción (aparición rápida: 3.5s) --- */
+.si, .no, .weno, .dale, .salu, .copy, .reproducir, span.go, .carta {
+    font: 25px var(--font-retro);
+    margin: 10px;
+    opacity: 0;
+    animation-name: visible;
+    animation-duration: 1s;
+    animation-delay: 3.5s;
+    animation-fill-mode: forwards;
+    cursor: pointer;
+    color: var(--text-primary);
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    padding: 10px;
+}
+
+/* --- Botones de opción (aparición lenta: 7s) --- */
+.rega, .ojo, .afi, .anillo, .marry, .meme, .meme2, .yes {
+    font: 25px var(--font-retro);
+    margin: 10px;
+    opacity: 0;
+    animation-name: visible;
+    animation-duration: 1s;
+    animation-delay: 7s;
+    animation-fill-mode: forwards;
+    cursor: pointer;
+    text-align: center;
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    padding: 10px;
+}
+
+/* --- Neon glow para opciones y textos largos --- */
+.si, .no, .weno, .dale, .salu, .copy, .reproducir, span.go, .carta,
+.rega, .ojo, .afi, .anillo, .marry, .meme, .meme2, .yes, #f14, #f22 {
+    text-shadow: 0 0 4px rgba(255,255,255,0.5), 0 0 8px rgba(255,255,255,0.2);
+}
+
+/* --- Brillo rojo especial --- */
+.yes[style*="color: red"] {
+    text-shadow: 0 0 4px red, 0 0 8px red, 0 0 16px red !important;
+}
+
+/* --- Hover / Active para opciones --- */
+.si, .no, .weno, .dale, .salu, .copy, .reproducir, span.go, .carta,
+.rega, .ojo, .afi, .anillo, .marry, .meme, .meme2, .yes {
+    transition: transform var(--transition-fast), text-shadow var(--transition-fast), opacity var(--transition-fast);
+}
+
+.si:hover, .no:hover, .weno:hover, .dale:hover, .salu:hover, .copy:hover,
+.reproducir:hover, span.go:hover, .carta:hover, .rega:hover, .ojo:hover,
+.afi:hover, .anillo:hover, .marry:hover, .meme:hover, .meme2:hover {
+    transform: scale(1.1);
+    opacity: 1 !important;
+    text-shadow: 0 0 8px rgba(255,255,255,0.8), 0 0 16px rgba(255,255,255,0.4);
+}
+
+.yes:hover {
+    transform: scale(1.1);
+}
+
+.si:active, .no:active, .weno:active, .dale:active, .salu:active, .copy:active,
+.reproducir:active, span.go:active, .carta:active, .rega:active, .ojo:active,
+.afi:active, .anillo:active, .marry:active, .meme:active, .meme2:active, .yes:active {
+    transform: scale(0.9) !important;
+    opacity: 0.9 !important;
+    animation: textFlicker 0.2s ease-in-out;
+    text-shadow: 2px 0 rgba(255,0,0,0.8), -2px 0 rgba(0,255,255,0.8) !important;
+}
+
+/* --- Cofres / Cajas --- */
+.box {
+    width: 100px;
+    height: 100px;
+    background: url(https://i.imgur.com/ViqP2fB.png) no-repeat center center;
+    background-size: 100%;
+    margin: 10px 20px;
+    cursor: pointer;
+    transition: transform var(--transition-fast), filter var(--transition-medium), opacity var(--transition-fast);
+    animation: floatingBox 3s ease-in-out infinite alternate;
+}
+
+@keyframes floatingBox {
+    from { transform: translateY(0); }
+    to { transform: translateY(-5px); }
+}
+
+.box:hover {
+    background: url(https://i.imgur.com/FIrcwmM.png) no-repeat center center;
+    background-size: 100%;
+    transform: translateY(-8px) scale(1.05);
+    filter: drop-shadow(0 0 15px rgba(114, 239, 255, 0.6)) drop-shadow(0 0 30px rgba(255, 96, 180, 0.4));
+    animation: none; /* Se detiene al hacer hover */
+}
+
+.box:active {
+    transform: translateY(-2px) scale(0.95);
+    filter: drop-shadow(0 0 5px rgba(114, 239, 255, 0.8)) drop-shadow(0 0 15px rgba(255, 96, 180, 0.6));
+}
+
+/* --- Imágenes inline --- */
+.img1 {
+    width: 150px;
+    height: 150px;
+    background: url(https://i.imgur.com/QLrOZMR.png);
+    background-size: cover;
+    transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.img1:hover {
+    filter: drop-shadow(0 0 15px rgba(255,255,255,0.8));
+    transform: scale(1.05);
+}
+
+#ico {
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 130px;
+    height: 130px;
+    background: url(https://i.imgur.com/SVZxE8c.png) no-repeat center center;
+    background-size: 100%;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+}
+
+.ring {
+    width: 150px;
+    height: 150px;
+    background: url(https://i.imgur.com/oEs8TdL.png);
+    background-size: cover;
+    transition: transform 0.3s ease, filter 0.3s ease;
+    animation: floatingBox 4s ease-in-out infinite alternate;
+}
+
+.ring:hover {
+    filter: drop-shadow(0 0 20px rgba(114, 239, 255, 0.8));
+    transform: scale(1.1) translateY(-10px);
+}
+
+.ichigo {
+    width: 200px;
+    height: 200px;
+    background: url(https://i.imgur.com/hGY3pGX.png);
+    background-size: cover;
+    transition: filter 0.3s ease;
+}
+
+.ichigo:hover {
+    filter: drop-shadow(0 0 20px rgba(255, 96, 180, 0.8));
+}
+
+/* --- Scrollbar personalizada para textos largos --- */
+#f14::-webkit-scrollbar,
+#f15::-webkit-scrollbar,
+#f22::-webkit-scrollbar {
+    width: 8px;
+}
+
+#f14::-webkit-scrollbar-track,
+#f15::-webkit-scrollbar-track,
+#f22::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+    border-radius: var(--border-radius-sm);
+}
+
+#f14::-webkit-scrollbar-thumb,
+#f15::-webkit-scrollbar-thumb,
+#f22::-webkit-scrollbar-thumb {
+    background: #fff;
+    border-radius: var(--border-radius-sm);
+    box-shadow: 0 0 5px rgba(255,255,255,0.8);
+}
+
+#f14::-webkit-scrollbar-thumb:hover,
+#f15::-webkit-scrollbar-thumb:hover,
+#f22::-webkit-scrollbar-thumb:hover {
+    background: var(--blue);
+    box-shadow: 0 0 10px var(--blue);
+}
+
+/* --- Animación de aparición --- */
+@keyframes visible {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

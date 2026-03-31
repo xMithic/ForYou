@@ -1,0 +1,41 @@
+/* =========================================
+   TIPOGRAFÍA & NEON GLOW
+   ========================================= */
+h1, h2, h3 {
+    position: relative;
+    overflow: visible;
+    color: #fff;
+    white-space: normal;
+    word-wrap: break-word;
+    margin: 0 auto;
+    letter-spacing: .03em;
+    font: 30px var(--font-retro);
+    text-align: center;
+    width: 100%;
+    opacity: 0;
+    text-shadow: 0 0 4px var(--text-glow), 0 0 10px var(--text-glow-soft);
+    padding: 15px 0;
+    animation: textBreathe 4s ease-in-out infinite alternate;
+}
+
+@keyframes textBreathe {
+    from { text-shadow: 0 0 4px var(--text-glow), 0 0 10px var(--text-glow-soft); transform: scale(1); }
+    to { text-shadow: 0 0 8px var(--text-glow), 0 0 15px var(--text-glow-soft), 0 0 20px rgba(114, 239, 255, 0.4); transform: scale(1.01); }
+}
+
+/* --- Cursor de escritura estilo CMD --- */
+.typer-cursor {
+    display: inline-block;
+    vertical-align: middle;
+    height: 24px;
+    width: 14px;
+    background: #fff;
+    box-shadow: 0 0 6px #fff, 0 0 12px #fff;
+    animation: blink-caret .75s step-end infinite;
+    margin-left: 4px;
+}
+
+@keyframes blink-caret {
+    from, to { opacity: 0; }
+    50% { opacity: 1; }
+}

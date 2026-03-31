@@ -1,0 +1,82 @@
+/* =========================================
+   REPRODUCTOR DE MÚSICA & LETRAS
+   ========================================= */
+
+#music-title {
+    font: 26px var(--font-retro);
+    padding: 10px;
+    margin: -10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#music-author {
+    font: 20px var(--font-retro);
+    padding: 10px;
+    margin: -10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* --- Vinilo giratorio --- */
+.spin-vinyl {
+    animation: rotateVinyl 8s linear infinite;
+}
+.paused-vinyl {
+    animation-play-state: paused;
+}
+@keyframes rotateVinyl {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* --- Panel de letras estilo Spotify --- */
+#lyrics-container {
+    /* Fade vertical MÁS suave para evitar cortes duros del neón */
+    -webkit-mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0,0,0,0.3) 10%,
+        rgba(0,0,0,1) 28%,
+        rgba(0,0,0,1) 72%,
+        rgba(0,0,0,0.3) 90%,
+        transparent 100%
+    );
+    mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0,0,0,0.3) 10%,
+        rgba(0,0,0,1) 28%,
+        rgba(0,0,0,1) 72%,
+        rgba(0,0,0,0.3) 90%,
+        transparent 100%
+    );
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+    /* Evitar que el glow se corte horizontalmente */
+    overflow-x: visible;
+    padding: 0 20px;
+    margin: 0 -20px;
+}
+#lyrics-container::-webkit-scrollbar { display: none; }
+
+.lyric-scroll-line {
+    font-family: var(--font-retro);
+    font-size: 18px;
+    color: rgba(255,255,255,0.35);
+    text-align: center;
+    padding: 5px 20px;
+    line-height: 1.5;
+    opacity: 0.35;
+    transform: scale(0.9);
+    transform-origin: center center;
+    transition:
+        color 0.15s ease-out,
+        opacity 0.15s ease-out,
+        transform 0.15s ease-out,
+        text-shadow 0.15s ease-out,
+        font-weight 0.15s ease-out;
+    cursor: default;
+    white-space: normal;
+    word-break: break-word;
+}

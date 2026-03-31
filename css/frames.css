@@ -1,0 +1,162 @@
+/* =========================================
+   FRAMES / PANTALLAS DEL JUEGO
+   ========================================= */
+
+/* --- Frame base compartida --- */
+.frame-base {
+    position: absolute;
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    min-height: 400px;
+    padding: 20px;
+    box-sizing: border-box;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#f1 {
+    position: absolute;
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    min-height: 400px;
+    padding: 20px;
+    box-sizing: border-box;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background: transparent;
+}
+
+#f2, #f3, #f4, #f5, #f6 {
+    position: absolute;
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    min-height: 400px;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    display: none;
+}
+
+#f7 {
+    position: absolute;
+    width: 100%;
+    max-width: 850px;
+    height: 100%;
+    max-height: 550px;
+    background: url(https://i.imgur.com/kx3psEN.png) center center;
+    background-size: cover;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#f8, #f9 {
+    position: absolute;
+    bottom: 15%;
+    left: 20px;
+    right: 20px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#f10 {
+    position: absolute;
+    top: 40%;
+    transform: translateY(30%);
+    left: 10px;
+    right: 10px;
+    height: auto;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#f11 {
+    position: absolute;
+    top: 10%;
+    left: 10px;
+    right: 10px;
+    transform: scale(.7);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+}
+
+#f12 {
+    position: absolute;
+    top: 0; bottom: 0; right: 0; left: 0;
+    background: transparent;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#f14, #f15 {
+    background: transparent;
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    padding: 30px;
+    box-sizing: border-box;
+    font: 26px var(--font-retro);
+    text-align: justify;
+    display: none;
+    overflow-y: auto;
+}
+
+#f16 {
+    position: absolute;
+    top: 0; right: 0; left: 0; bottom: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#f17 {
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#f18 {
+    position: absolute;
+    top: 0; bottom: 0; right: 0; left: 0;
+    background: transparent;
+    display: none;
+}
+
+#f19, #f20, #f21, #f22 {
+    position: absolute;
+    top: 0; bottom: 0; right: 0; left: 0;
+    background: transparent;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#f22 {
+    font: 26px var(--font-retro);
+    text-align: justify;
+    padding: 30px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}

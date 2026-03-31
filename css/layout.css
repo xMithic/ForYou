@@ -1,0 +1,99 @@
+/* =========================================
+   BODY & LAYOUT
+   ========================================= */
+body {
+    background-color: var(--bg-primary);
+    background-attachment: fixed;
+    background-size: cover;
+    color: var(--text-primary);
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    cursor: auto;
+    overflow: hidden;
+    transition: background-color 4s ease-in-out;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+/* Efecto CRT retro mejorado */
+body::after {
+    content: " ";
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    background-size: 100% 2px, 3px 100%;
+    pointer-events: none;
+    z-index: 99999;
+    will-change: opacity;
+    animation: crtPulse 4s infinite alternate;
+}
+
+@keyframes crtPulse {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 0.9; }
+}
+
+/* --- Cristal CRT Curvo (Reflejo Sutil) --- */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    pointer-events: none;
+    z-index: 99998;
+    
+    /* Ilusión de cristal convexo puramente óptico (Hardware Accelerated) */
+    box-shadow: 
+        inset 0 0 15vw rgba(0, 0, 0, 0.95), /* Oscurecimiento extremo en orillas */
+        inset 0 0 2px 1px rgba(255, 255, 255, 0.05); /* Hilo de luz rasgando el cristal */
+    
+    /* Curvatura de viñeta panorámica perfeccionada que "infla" el centro engañando al ojo */
+    background: radial-gradient(circle at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.6) 120%);
+    will-change: opacity;
+}
+
+/* --- Overlay "¿Quieres Jugar?" --- */
+#start-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--bg-primary);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.start-text {
+    font-family: var(--font-retro);
+    font-size: 40px;
+    color: #fff;
+    text-shadow: 0 0 10px #fff, 0 0 30px rgba(114, 239, 255, 0.3);
+    text-align: center;
+    animation: startPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes startPulse {
+    0%, 100% { 
+        text-shadow: 0 0 10px #fff, 0 0 30px rgba(114, 239, 255, 0.3); 
+        transform: scale(1);
+    }
+    50% { 
+        text-shadow: 0 0 15px #fff, 0 0 40px rgba(114, 239, 255, 0.5), 0 0 60px rgba(255, 96, 180, 0.2); 
+        transform: scale(1.03);
+    }
+}
+
+#out-all {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Fisheye Estático Optimizado (Cero Lag y 100% Clickeable) */
+    transform: scale(1.03); /* Zoom panorámico puro sin robar clics en 3D */
+    will-change: transform;
+}

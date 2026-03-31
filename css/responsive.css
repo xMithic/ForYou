@@ -1,0 +1,57 @@
+/* =========================================
+   RESPONSIVE / MÓVIL
+   ========================================= */
+@media screen and (max-width: 768px) {
+    h1, h2, h3 {
+        font-size: 24px;
+        padding: 5px 0;
+    }
+
+    .typer-cursor {
+        height: 18px;
+        width: 10px;
+    }
+
+    .si, .no, .weno, .dale, .salu, .copy, .reproducir, span.go, .carta,
+    .rega, .ojo, .afi, .anillo, .marry, .meme, .meme2, .yes {
+        font-size: 22px;
+        margin: 5px;
+    }
+
+    #music-player {
+        top: 10px !important;
+        left: 10px !important;
+        right: 10px !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        box-sizing: border-box;
+    }
+
+    #music-cover {
+        width: 45px !important;
+        height: 45px !important;
+    }
+
+    #music-title { font-size: 20px !important; }
+    #music-author { font-size: 14px !important; }
+
+    #f14, #f15, #f22 {
+        font-size: 20px;
+        padding: 20px;
+    }
+
+    .box { margin: 5px; }
+
+    #ico {
+        width: 90px;
+        height: 90px;
+    }
+
+    .volume-slider {
+        max-width: 100px;
+    }
+
+    .volume-percentage {
+        display: none;
+    }
+}

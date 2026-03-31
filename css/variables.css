@@ -1,0 +1,19 @@
+/* =========================================
+   VARIABLES / DESIGN TOKENS
+   ========================================= */
+:root {
+    --pink: #ff60b4;
+    --blue: #72efff;
+    --bg-primary: #111;
+    --text-primary: #f9f9f9;
+    --text-glow: rgba(255, 255, 255, 0.6);
+    --text-glow-soft: rgba(255, 255, 255, 0.3);
+    --font-retro: 'VT323', monospace;
+    --font-mono: 'Inconsolata', monospace;
+    --transition-fast: 0.2s ease;
+    --transition-medium: 0.4s ease;
+    --border-radius-sm: 4px;
+    --border-radius-md: 10px;
+    --border-radius-lg: 16px;
+    --border-radius-full: 50%;
+}
