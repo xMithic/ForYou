@@ -3,20 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Un Juego De Amor — una experiencia interactiva hecha con cariño.">
     <title>Un Juego De Amor</title>
-    <link href="https://kit-pro.fontawesome.com/releases/v5.15.1/css/pro.min.css" rel="stylesheet" />
+
+    <!-- Fuentes -->
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="Style.css">
+
+    <!-- CSS Modular -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/typography.css">
+    <link rel="stylesheet" href="css/frames.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/music-player.css">
+    <link rel="stylesheet" href="css/effects.css">
+    <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
-    <div id="start-overlay" style="position: absolute; top:0; left:0; right:0; bottom:0; background:#111; z-index:9999; display:flex; align-items:center; justify-content:center; cursor:pointer;">
-        <!-- Cambiado a div para desvincularlo de la regla global opacity:0 asignada a los h1, h2, h3 -->
-        <div style="font-family: 'VT323', monospace; font-size:40px; color: #fff; text-shadow: 0 0 10px #fff; width:auto; text-align:center;">> ¿Quieres Jugar? <</div>
+
+    <!-- ====== OVERLAY DE INICIO ====== -->
+    <div id="start-overlay">
+        <div class="start-text">> ¿Quieres Jugar? <</div>
     </div>
 
-    <!-- WIDGET REPRODUCTOR DE MÚSICA CON OJO DE PEZ DE LETRAS -->
+    <!-- ====== REPRODUCTOR DE MÚSICA ====== -->
     <div id="music-player" style="display: none; position: absolute; top: 20px; left: 20px; z-index: 10000; background: transparent; padding: 10px 15px; border-radius: 10px; border: none; max-width: 500px; min-width: 300px; flex-direction: column;">
         <div style="display: flex; align-items: center;">
             <img id="music-cover" src="" crossorigin="anonymous" style="width: 55px; height: 55px; border-radius: 50%; margin-right: 15px; object-fit: cover; transition: box-shadow 1s;">
@@ -25,190 +38,187 @@
                 <div id="music-author" style="transition: color 1s, text-shadow 1s;"></div>
             </div>
         </div>
-        
-        <!-- Panel de letras tipo Spotify con scroll suave -->
+
+        <!-- Panel de letras sincronizadas -->
         <div id="lyrics-container" style="width: 100%; margin-top: 10px; display: none; border-top: 1px dashed rgba(255,255,255,0.15); padding-top: 6px; height: 120px; overflow: hidden; position: relative;">
             <div id="lyrics-inner" style="padding: 50px 0;"></div>
         </div>
     </div>
 
-<div id="out-all">
+    <!-- ====== CONTENIDO DEL JUEGO ====== -->
+    <div id="out-all">
 
-    <div id="f1">
-        <h1>¿así que quieres participar en esta aventura?</h1>
-
-        <div class="decidir">
-            <div class="si">> si!</div>
-            <div class="no">> no</div>
-        </div>
-    </div>
-
-    <div id="f2">
-        <h1>¡vamos, será divertido! ven acá.</h1>
-        <div class="decidir">
-            <div class="weno">> si no tengo más opción... </div>
-        </div>
-    </div>
-
-
-    <div id="f3">
-        <h1>¡pero ponle un poco más de ánimo! si no quieres, no te obligo. </h1>
-        <div class="decidir">
-            <div class="dale">> ¡ya llévame a la aventura de una vez! </div>
-        </div>
-    </div>
-
-
-
-    <div id="f4">
-        <h3>¡VALE, VALE, NO ME GRITES! Pero, debo decirte una cosa.</h3>
-        <h2>Te mentí, esto no es una aventura, es un regalo.</h2>
-        <div class="decidir">
-            <div class="rega">> ¿un regalo? </div>
-        </div>
-    </div>
-
-
-    <div id="f5">
-        <h3>¡justamente! un regalo para ti</h3>
-        <h2>ahora, cierra los ojos, vamos a comenzar.</h2>
-        <div class="decidir">
-            <div class="ojo">> uhm... /cerrar los ojos. </div>
-        </div>
-    </div>
-
-    <div id="f6">
-        <div class="img1"> </div>
-        <h3>¡este eres tú! estas chiquito y hay que protegerte.</h3>
-        <h2>¡vamos a entrar! ¡afírmate bien!</h2>
-        <div class="afi">> ¡p-pero! /todo comienza a temblar y te afirmas de todos modos. </div>
-    </div>
-
-    <div id="f7">
-
-        <div id="ico"> </div>
-
-        <div id="f8">
-            <h1>¡uhhhh! que emoción, que emoción. ¡hola!</h1>
+        <!-- Pantalla 1: ¿Aventura? -->
+        <div id="f1">
+            <h1>¿así que quieres participar en esta aventura?</h1>
             <div class="decidir">
-                <div class="salu">> ¿hola?</div>
+                <div class="si">> si!</div>
+                <div class="no">> no</div>
             </div>
         </div>
 
-        <div id="f9">
-            <h1>¡Es peligro que estes aqui!</h1>
+        <!-- Pantalla 2: Convencimiento -->
+        <div id="f2">
+            <h1>¡vamos, será divertido! ven acá.</h1>
             <div class="decidir">
-                <div class="copy">> ... No pasa nada-</div>
+                <div class="weno">> si no tengo más opción... </div>
             </div>
         </div>
 
-
-
-
-        <div id="f10">
-            <div class="box ca1"> </div>
-            <div class="box ca2"> </div>
-            <div class="box ca3"> </div>
-
+        <!-- Pantalla 3: Ánimo -->
+        <div id="f3">
+            <h1>¡pero ponle un poco más de ánimo! si no quieres, no te obligo. </h1>
+            <div class="decidir">
+                <div class="dale">> ¡ya llévame a la aventura de una vez! </div>
+            </div>
         </div>
 
-        <div id="f11">
-            <h3>tienes tres cofres delante tuyo, cada uno con una vibra especial. </h3>
-            <h2>el orden es <span style="color: #ffff00; text-shadow: 0 0 10px #ffff00;">1-3-2</span>, recuerda dejar el del medio para el final. ¡ábrelos!</h2>
+        <!-- Pantalla 4: Revelación -->
+        <div id="f4">
+            <h3>¡VALE, VALE, NO ME GRITES! Pero, debo decirte una cosa.</h3>
+            <h2>Te mentí, esto no es una aventura, es un regalo.</h2>
+            <div class="decidir">
+                <div class="rega">> ¿un regalo? </div>
+            </div>
         </div>
 
-        <div id="f12">
-            <div id="f13">
-                <h1>por favor, reproduce esta canción antes de leer</h1>
-                <div class="reproducir">> reproduces la canción. </div>
-                <span class="go">> seguir leyendo.</span>
+        <!-- Pantalla 5: Cerrar ojos -->
+        <div id="f5">
+            <h3>¡justamente! un regalo para ti</h3>
+            <h2>ahora, cierra los ojos, vamos a comenzar.</h2>
+            <div class="decidir">
+                <div class="ojo">> uhm... /cerrar los ojos. </div>
             </div>
-
-
-            <div id="f14">Si alguien me hubiera preguntado siete meses atrás si creía volver a darme la oportunidad de
-                estar con alguien, me habría reído en su cara. No es que no crea en el amor, o que sienta que soy
-                demasiado bueno para ello, sino que es más bien todo lo contrario. "No lo merezco", repetía, pero, ¿es
-                que no lo merecía? ¿o que estaba demasiado asustado de abrirme a alguien que no fueran mis amistades?
-                Hasta el día de hoy, aún no encuentro la respuesta, pero sé, bastante bien, que sí merezco ser amado, y
-                me lo has enseñado tú en estos pocos meses que llevas tomando mi manito.
-                <br><br>
-                No soy bueno con las palabras, eso siempre ha sido lo tuyo. Pero si hay algo en lo que sé que puedo
-                cumplir, es haciendo cositas. Espero que guardes este pequeño regalito como algo que te recuerde que tú
-                también mereces amor, que estamos juntos en esto y que sin importar qué tantas inseguridades se pongan
-                en nuestro camino, siempre nos tendremos el uno al otro para apoyarnos.
-                <br><br>
-                No miento cuando digo que eres mi todo, Ichigo. Agradezco cada día que hayas llegado a mi vida, y espero
-                que quieras quedarte acá mucho tiempo más.
-                <br><br>
-                <div class="carta">> vuelves a abrir las otras cajas. </div>
-            </div>
-
-
         </div>
 
-
-        <div id="f15">
-            <div id="f16">
-                <h3>¡Oh, mira, ves algo brillante ahí al centro!</h3>
-                <h2>Deberías tomarlo...</h2>
-
-                <div class="anillo">> lo recoges. </div>
-            </div>
-            <div id="f17">
-                <div class="ring"> </div>
-                <div class="ichigo"> </div>
-                <h3> ¡has encontrado los anillos!, pero... ¿para qué se supone que son?</h3>
-                <h2>¿quieres llevártelos?</h2>
-                <div class="marry">> guardas los anillos en tu bolsillo. esperemos que ningún ladrón te los robe...
-                </div>
-            </div>
-
+        <!-- Pantalla 6: Imagen personaje -->
+        <div id="f6">
+            <div class="img1"> </div>
+            <h3>¡este eres tú! estas chiquito y hay que protegerte.</h3>
+            <h2>¡vamos a entrar! ¡afírmate bien!</h2>
+            <div class="afi">> ¡p-pero! /todo comienza a temblar y te afirmas de todos modos. </div>
         </div>
 
-        <div id="f18">
+        <!-- Pantalla 7: Escenario -->
+        <div id="f7">
+            <div id="ico"> </div>
 
-            <div id="f19">
-                <h3>¡pero si ya hemos llegado al final! ¿tan rápido?</h3>
-                <h2>¡oh, no, pausa, pausa! aún queda una última cosa...</h2>
+            <div id="f8">
+                <h1>¡uhhhh! que emoción, que emoción. ¡hola!</h1>
                 <div class="decidir">
-                    <div class="meme">> ¿queda algo más?</div>
+                    <div class="salu">> ¿hola?</div>
                 </div>
             </div>
 
-
-            <div id="f20">
-                <h3>sí, necesitamos que respondas una pregunta... ¡es solo una!</h3>
-                <h2>aquí vamos</h2>
+            <div id="f9">
+                <h1>¡Es peligro que estes aqui!</h1>
                 <div class="decidir">
-                    <div class="meme2">> ¿s-supongo que sí...?</div>
+                    <div class="copy">> ... No pasa nada-</div>
                 </div>
             </div>
 
+            <!-- Cofres -->
+            <div id="f10">
+                <div class="box ca1"> </div>
+                <div class="box ca2"> </div>
+                <div class="box ca3"> </div>
+            </div>
 
+            <div id="f11">
+                <h3>tienes tres cofres delante tuyo, cada uno con una vibra especial. </h3>
+                <h2>el orden es <span style="color: #ffff00; text-shadow: 0 0 10px #ffff00;">1-3-2</span>, recuerda dejar el del medio para el final. ¡ábrelos!</h2>
+            </div>
 
-            <div id="f21">
-                <h3>ichigo. una vez no ha sido suficiente y quiero oírlo de nuevo.</h3>
-                <h2>¿quieres casarte conmigo?</h2>
+            <!-- Cofre 1: Carta -->
+            <div id="f12">
+                <div id="f13">
+                    <h1>por favor, reproduce esta canción antes de leer</h1>
+                    <div class="reproducir">> reproduces la canción. </div>
+                    <span class="go">> seguir leyendo.</span>
+                </div>
 
-                <div class="decidir">
-                    <div class="yes">> ¡SIIII!</div>
-                    <div class="yes" style="color: red">> ¡SIIII EN ROJO!</div>
+                <div id="f14">Si alguien me hubiera preguntado siete meses atrás si creía volver a darme la oportunidad de
+                    estar con alguien, me habría reído en su cara. No es que no crea en el amor, o que sienta que soy
+                    demasiado bueno para ello, sino que es más bien todo lo contrario. "No lo merezco", repetía, pero, ¿es
+                    que no lo merecía? ¿o que estaba demasiado asustado de abrirme a alguien que no fueran mis amistades?
+                    Hasta el día de hoy, aún no encuentro la respuesta, pero sé, bastante bien, que sí merezco ser amado, y
+                    me lo has enseñado tú en estos pocos meses que llevas tomando mi manito.
+                    <br><br>
+                    No soy bueno con las palabras, eso siempre ha sido lo tuyo. Pero si hay algo en lo que sé que puedo
+                    cumplir, es haciendo cositas. Espero que guardes este pequeño regalito como algo que te recuerde que tú
+                    también mereces amor, que estamos juntos en esto y que sin importar qué tantas inseguridades se pongan
+                    en nuestro camino, siempre nos tendremos el uno al otro para apoyarnos.
+                    <br><br>
+                    No miento cuando digo que eres mi todo, Ichigo. Agradezco cada día que hayas llegado a mi vida, y espero
+                    que quieras quedarte acá mucho tiempo más.
+                    <br><br>
+                    <div class="carta">> vuelves a abrir las otras cajas. </div>
                 </div>
             </div>
 
-
-            <div id="f22">me gustaría decir que tengo un final para esta historia, pero, ambos sabemos que apenas
-                estamos comenzando, ¿cierto? no hay cómo acabar si la aventura todavía esta verde.
-                <br><br>
-                el único final que quiero contigo es uno feliz, dónde termines de leer esto, vengas a mis brazos y me
-                beses. ¿Sería eso mucho pedir?
+            <!-- Cofre 3: Anillos -->
+            <div id="f15">
+                <div id="f16">
+                    <h3>¡Oh, mira, ves algo brillante ahí al centro!</h3>
+                    <h2>Deberías tomarlo...</h2>
+                    <div class="anillo">> lo recoges. </div>
+                </div>
+                <div id="f17">
+                    <div class="ring"> </div>
+                    <div class="ichigo"> </div>
+                    <h3> ¡has encontrado los anillos!, pero... ¿para qué se supone que son?</h3>
+                    <h2>¿quieres llevártelos?</h2>
+                    <div class="marry">> guardas los anillos en tu bolsillo. esperemos que ningún ladrón te los robe...
+                    </div>
+                </div>
             </div>
 
+            <!-- Cofre 2: Preguntas finales -->
+            <div id="f18">
+                <div id="f19">
+                    <h3>¡pero si ya hemos llegado al final! ¿tan rápido?</h3>
+                    <h2>¡oh, no, pausa, pausa! aún queda una última cosa...</h2>
+                    <div class="decidir">
+                        <div class="meme">> ¿queda algo más?</div>
+                    </div>
+                </div>
 
+                <div id="f20">
+                    <h3>sí, necesitamos que respondas una pregunta... ¡es solo una!</h3>
+                    <h2>aquí vamos</h2>
+                    <div class="decidir">
+                        <div class="meme2">> ¿s-supongo que sí...?</div>
+                    </div>
+                </div>
+
+                <div id="f21">
+                    <h3>ichigo. una vez no ha sido suficiente y quiero oírlo de nuevo.</h3>
+                    <h2>¿quieres casarte conmigo?</h2>
+                    <div class="decidir">
+                        <div class="yes">> ¡SIIII!</div>
+                        <div class="yes" style="color: red">> ¡SIIII EN ROJO!</div>
+                    </div>
+                </div>
+
+                <div id="f22">me gustaría decir que tengo un final para esta historia, pero, ambos sabemos que apenas
+                    estamos comenzando, ¿cierto? no hay cómo acabar si la aventura todavía esta verde.
+                    <br><br>
+                    el único final que quiero contigo es uno feliz, dónde termines de leer esto, vengas a mis brazos y me
+                    beses. ¿Sería eso mucho pedir?
+                </div>
+            </div>
         </div>
     </div>
 
+    <!-- ====== SCRIPTS (orden de dependencias) ====== -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="JavaScript.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/lyrics.js"></script>
+    <script src="js/typewriter.js"></script>
+    <script src="js/spotify.js"></script>
+    <script src="js/effects.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
