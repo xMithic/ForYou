@@ -36,7 +36,7 @@ body::after {
     50% { opacity: 0.9; }
 }
 
-/* --- Cristal CRT Curvo (Reflejo Sutil) --- */
+/* --- Cristal CRT Curvo (Efecto Fisheye Avanzado) --- */
 body::before {
     content: "";
     position: fixed;
@@ -46,11 +46,16 @@ body::before {
     
     /* Ilusión de cristal convexo puramente óptico (Hardware Accelerated) */
     box-shadow: 
-        inset 0 0 15vw rgba(0, 0, 0, 0.95), /* Oscurecimiento extremo en orillas */
-        inset 0 0 2px 1px rgba(255, 255, 255, 0.05); /* Hilo de luz rasgando el cristal */
+        inset 0 0 10vw rgba(0, 0, 0, 0.8), /* Oscurecimiento panorámico */
+        inset 0 0 4vw rgba(0, 0, 0, 0.95), /* Viñeta oscura extrema en ángulos */
+        inset 0 0 2px 1px rgba(255, 255, 255, 0.07); /* Hilo de luz rasgando el cristal curvo */
     
-    /* Curvatura de viñeta panorámica perfeccionada que "infla" el centro engañando al ojo */
-    background: radial-gradient(circle at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.6) 120%);
+    /* Mix de sombras y brillo superior para efecto "Fisheye Convexo" realista */
+    background: 
+        /* Reflejo superior del cristal de tubo CRT */
+        radial-gradient(ellipse at 50% 10%, rgba(255, 255, 255, 0.1) 0%, transparent 40%),
+        /* Sombra de viñeta panorámica para que los costados parezcan más lejanos o hundidos */
+        radial-gradient(circle at 50% 50%, transparent 40%, rgba(0, 0, 0, 0.8) 140%);
     will-change: opacity;
 }
 
@@ -94,6 +99,6 @@ body::before {
     justify-content: center;
     
     /* Fisheye Estático Optimizado (Cero Lag y 100% Clickeable) */
-    transform: scale(1.03); /* Zoom panorámico puro sin robar clics en 3D */
+    transform: scale(1.04); /* Zoom panorámico puro, levemente superior para enfatizar curva óptica */
     will-change: transform;
 }
