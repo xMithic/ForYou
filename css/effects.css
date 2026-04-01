@@ -13,6 +13,8 @@
     animation: floatUp linear infinite;
     image-rendering: pixelated;
     border-radius: 1px;
+    will-change: transform, opacity;
+    transform: translateZ(0);
 }
 
 @keyframes floatUp {
@@ -32,6 +34,8 @@
     pointer-events: none;
     opacity: 0;
     animation: flashAnim 0.6s ease-out;
+    will-change: opacity;
+    transform: translateZ(0);
 }
 
 @keyframes flashAnim {
@@ -62,6 +66,8 @@
     );
     pointer-events: none;
     z-index: 2;
+    will-change: opacity;
+    transform: translateZ(0);
 }
 
 /* --- Ruido ambiental sutil (textura de pantalla antigua) --- */
@@ -74,6 +80,8 @@
     z-index: 3;
     opacity: 0.4;
     animation: noiseShift 0.15s steps(3) infinite;
+    will-change: transform;
+    transform: translateZ(0);
 }
 
 @keyframes noiseShift {
@@ -87,7 +95,7 @@
 .ambient-glow {
     position: fixed;
     top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) translateZ(0);
     width: 120vw; height: 120vh;
     background: radial-gradient(
         circle at center,
@@ -96,7 +104,7 @@
     );
     pointer-events: none;
     z-index: 0;
-    will-change: opacity;
+    will-change: opacity, transform;
     animation: ambientBreathe 8s ease-in-out infinite alternate;
 }
 
@@ -109,6 +117,8 @@
 .option-arrow {
     display: inline-block;
     transition: transform 0.2s ease;
+    will-change: transform;
+    transform: translateZ(0);
 }
 
 /* --- Transición de pantallas más cinematográfica --- */
