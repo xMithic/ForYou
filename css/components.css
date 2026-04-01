@@ -34,6 +34,8 @@
     outline: none !important;
     box-shadow: none !important;
     padding: 10px;
+    will-change: opacity, transform, text-shadow;
+    transform: translateZ(0);
 }
 
 /* --- Botones de opción (aparición lenta: 7s) --- */
@@ -52,6 +54,8 @@
     outline: none !important;
     box-shadow: none !important;
     padding: 10px;
+    will-change: opacity, transform, text-shadow;
+    transform: translateZ(0);
 }
 
 /* --- Neon glow para opciones y textos largos --- */
@@ -102,23 +106,25 @@
     cursor: pointer;
     transition: transform var(--transition-fast), filter var(--transition-medium), opacity var(--transition-fast);
     animation: floatingBox 3s ease-in-out infinite alternate;
+    will-change: transform, filter;
+    transform: translateZ(0);
 }
 
 @keyframes floatingBox {
-    from { transform: translateY(0); }
-    to { transform: translateY(-5px); }
+    from { transform: translateY(0) translateZ(0); }
+    to { transform: translateY(-5px) translateZ(0); }
 }
 
 .box:hover {
     background: url(https://i.imgur.com/FIrcwmM.png) no-repeat center center;
     background-size: 100%;
-    transform: translateY(-8px) scale(1.05);
+    transform: translateY(-8px) scale(1.05) translateZ(0);
     filter: drop-shadow(0 0 15px rgba(114, 239, 255, 0.6)) drop-shadow(0 0 30px rgba(255, 96, 180, 0.4));
     animation: none; /* Se detiene al hacer hover */
 }
 
 .box:active {
-    transform: translateY(-2px) scale(0.95);
+    transform: translateY(-2px) scale(0.95) translateZ(0);
     filter: drop-shadow(0 0 5px rgba(114, 239, 255, 0.8)) drop-shadow(0 0 15px rgba(255, 96, 180, 0.6));
 }
 
@@ -129,11 +135,13 @@
     background: url(https://i.imgur.com/QLrOZMR.png);
     background-size: cover;
     transition: filter 0.3s ease, transform 0.3s ease;
+    will-change: transform, filter;
+    transform: translateZ(0);
 }
 
 .img1:hover {
     filter: drop-shadow(0 0 15px rgba(255,255,255,0.8));
-    transform: scale(1.05);
+    transform: scale(1.05) translateZ(0);
 }
 
 #ico {
@@ -154,12 +162,19 @@
     background: url(https://i.imgur.com/oEs8TdL.png);
     background-size: cover;
     transition: transform 0.3s ease, filter 0.3s ease;
-    animation: floatingBox 4s ease-in-out infinite alternate;
+    animation: floatingRing 4s ease-in-out infinite alternate;
+    will-change: transform, filter;
+    transform: translateZ(0);
+}
+
+@keyframes floatingRing {
+    from { transform: translateY(0) translateZ(0); }
+    to { transform: translateY(-5px) translateZ(0); }
 }
 
 .ring:hover {
     filter: drop-shadow(0 0 20px rgba(114, 239, 255, 0.8));
-    transform: scale(1.1) translateY(-10px);
+    transform: scale(1.1) translateY(-10px) translateZ(0);
 }
 
 .ichigo {
@@ -168,6 +183,8 @@
     background: url(https://i.imgur.com/hGY3pGX.png);
     background-size: cover;
     transition: filter 0.3s ease;
+    will-change: filter;
+    transform: translateZ(0);
 }
 
 .ichigo:hover {
