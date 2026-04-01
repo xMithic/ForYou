@@ -1,6 +1,6 @@
 // ==========================================
 // ====== INICIALIZACIÓN PRINCIPAL     ======
-// — Optimizado para rendimiento móvil —
+// — Ultra Premium Edition —
 // ==========================================
 
 $(document).ready(function() {
@@ -9,8 +9,7 @@ $(document).ready(function() {
     document.documentElement.style.cursor = 'auto';
     document.body.style.cursor = 'auto';
 
-    // --- Ambient effects (Vignette, Noise, Breathing Glow) ---
-    // Usar DocumentFragment + DOM nativo (más rápido que jQuery .prepend)
+    // --- Ambient effects (Vignette, Noise, Breathing Glow, Light Scan) ---
     const frag = document.createDocumentFragment();
 
     const vignetteDiv = document.createElement('div');
@@ -21,10 +20,16 @@ $(document).ready(function() {
     ambientDiv.className = 'ambient-glow';
     frag.appendChild(ambientDiv);
 
-    // Solo añadir noise overlay si NO es móvil o si el dispositivo tiene buen rendimiento
     const noiseDiv = document.createElement('div');
     noiseDiv.className = 'noise-overlay';
     frag.appendChild(noiseDiv);
+
+    // CRT scan line (solo desktop)
+    if (!isMobile) {
+        const scanDiv = document.createElement('div');
+        scanDiv.className = 'light-scan';
+        frag.appendChild(scanDiv);
+    }
 
     document.body.insertBefore(frag, document.body.firstChild);
 
@@ -73,6 +78,11 @@ $(document).ready(function() {
 
             $('#music-title, #music-author').css(neonStyle);
 
+            // Actualizar cursor glow color con el color de la portada
+            if (cursorGlowEl) {
+                cursorGlowEl.style.background = `radial-gradient(circle, ${currentNeonColor.replace('rgb', 'rgba').replace(')', ', 0.06)')} 0%, transparent 70%)`;
+            }
+
         } catch(e) {
             currentNeonColor = '#72efff';
             const fallbackStyle = {
@@ -95,12 +105,37 @@ $(document).ready(function() {
     $('#start-overlay').on('click', function() {
         if (audioCtx.state === 'suspended') audioCtx.resume();
         playClickSound();
-        $(this).fadeOut(400, function() {
+        
+        triggerFlash();
+        triggerChromaticFlash();
+        
+        // Atmosphere: initial
+        setAtmosphere('adventure');
+        
+        $(this).fadeOut(600, function() {
             $('#f1').css('display', 'flex');
             triggerSoundForNextScreen('#f1');
         });
     });
 
+    // --- ✨ Iniciar campo estelar ---
+    initStarfield();
+
+    // --- 💫 Iniciar estrellas fugaces ---
+    initShootingStars();
+
     // --- Partículas ambientales ---
     initParticles();
+
+    // --- 🔮 Cursor glow trail ---
+    initCursorGlow();
+
+    // --- 🧲 Magnetic hover ---
+    initMagneticHover();
+
+    // --- 💥 Click ripple ---
+    initClickRipple();
+
+    // --- 🎵 Audio reactive glow ---
+    initAudioReactive();
 });
