@@ -1,5 +1,6 @@
 // ==========================================
 // ====== LETRAS SINCRONIZADAS SPOTIFY ======
+// — Optimizado: mínimo DOM thrashing —
 // ==========================================
 
 let parsedLyrics = [];
@@ -7,6 +8,10 @@ let currentLyricIndex = -1;
 let lyricsRAF = null;
 let currentNeonColor = '#fff';
 const LYRIC_OFFSET = -0.08;
+
+// Cache de nodos DOM para evitar queries repetidas
+let _lyricsLines = [];
+let _lyricsInner = null;
 
 function cleanString(str) {
     if (!str) return "";
@@ -48,7 +53,7 @@ function findBestLyricMatch(results, title, artist) {
         t.trackName && t.trackName.toLowerCase().includes(normTitle));
     if (best) return { type: 'synced', data: best.syncedLyrics };
 
-    // 3. Cualquier synced lyrics (menos fiable)
+    // 3. Cualquier synced lyrics
     best = results.find(t => t.syncedLyrics);
     if (best) return { type: 'synced', data: best.syncedLyrics };
 
@@ -68,11 +73,9 @@ function fetchLyrics(title, artist) {
     const cleanT = cleanString(title);
     const cleanA = cleanString(artist);
 
-    // Intentar primero con artista + título (más preciso)
+    const directUrl = `https://lrclib.net/api/search?track_name=${encodeURIComponent(cleanT)}&artist_name=${encodeURIComponent(cleanA)}`;
     const artistTitleUrl = `https://lrclib.net/api/search?q=${encodeURIComponent(cleanA + ' ' + cleanT)}`;
     const titleOnlyUrl = `https://lrclib.net/api/search?q=${encodeURIComponent(cleanT)}`;
-    // Búsqueda directa por campos (la más precisa si la API la soporta)
-    const directUrl = `https://lrclib.net/api/search?track_name=${encodeURIComponent(cleanT)}&artist_name=${encodeURIComponent(cleanA)}`;
 
     // Intento 1: Búsqueda directa por campos
     fetch(directUrl)
@@ -85,7 +88,7 @@ function fetchLyrics(title, artist) {
             } else throw new Error('no match');
         })
         .catch(() => {
-            // Intento 2: Búsqueda con artista + título
+            // Intento 2
             fetch(artistTitleUrl)
                 .then(r => r.json())
                 .then(data => {
@@ -96,7 +99,7 @@ function fetchLyrics(title, artist) {
                     } else throw new Error('no match');
                 })
                 .catch(() => {
-                    // Intento 3: Solo título (menos preciso)
+                    // Intento 3
                     fetch(titleOnlyUrl)
                         .then(r => r.json())
                         .then(data => {
@@ -141,22 +144,36 @@ function parseLRC(lrcText) {
 }
 
 function buildLyricLines() {
-    const $inner = $('#lyrics-inner');
-    $inner.empty();
+    _lyricsInner = document.getElementById('lyrics-inner');
+    if (!_lyricsInner) return;
+
+    // Usar DocumentFragment para batch insert
+    const frag = document.createDocumentFragment();
+    _lyricsInner.innerHTML = '';
+
     parsedLyrics.forEach((lyric, i) => {
-        const $line = $('<div>')
-            .addClass('lyric-scroll-line')
-            .attr('data-index', i)
-            .text(lyric.text);
-        $inner.append($line);
+        const div = document.createElement('div');
+        div.className = 'lyric-scroll-line';
+        div.setAttribute('data-index', i);
+        div.textContent = lyric.text;
+        frag.appendChild(div);
     });
+
+    _lyricsInner.appendChild(frag);
+
+    // Cache de los nodos de línea (evita queries repetidas en cada frame)
+    _lyricsLines = Array.from(_lyricsInner.querySelectorAll('.lyric-scroll-line'));
     currentLyricIndex = -1;
 }
 
 function startLyricsLoop() {
     if (lyricsRAF) cancelAnimationFrame(lyricsRAF);
 
-    function tick() {
+    // Throttle: en móvil actualizar cada ~100ms en vez de cada frame
+    let lastUpdate = 0;
+    const UPDATE_INTERVAL = isMobile ? 100 : 0;
+
+    function tick(now) {
         if (parsedLyrics.length === 0 || audioFondo.paused || audioFondo.currentTime === 0) {
             if (currentLyricIndex !== -1) {
                 currentLyricIndex = -1;
@@ -165,6 +182,13 @@ function startLyricsLoop() {
             lyricsRAF = requestAnimationFrame(tick);
             return;
         }
+
+        // Throttle en móvil
+        if (UPDATE_INTERVAL && (now - lastUpdate) < UPDATE_INTERVAL) {
+            lyricsRAF = requestAnimationFrame(tick);
+            return;
+        }
+        lastUpdate = now;
 
         const t = audioFondo.currentTime + LYRIC_OFFSET;
         let newIndex = -1;
@@ -184,43 +208,64 @@ function startLyricsLoop() {
 }
 
 function updateActiveLyric(activeIndex) {
-    const $inner  = $('#lyrics-inner');
-    const $lines  = $inner.find('.lyric-scroll-line');
+    if (!_lyricsLines || _lyricsLines.length === 0) return;
 
     if (activeIndex < 0) {
-        $lines.css({
-            opacity: 0, transform: 'scale(0.9)',
-            'text-shadow': 'none', 'font-weight': 'normal', color: '#fff'
-        });
+        // Reset: usar batch class toggle en vez de jQuery .css() por cada línea
+        for (let i = 0; i < _lyricsLines.length; i++) {
+            const el = _lyricsLines[i];
+            el.style.opacity = '0';
+            el.style.transform = 'scale(0.9) translateZ(0)';
+            el.style.textShadow = 'none';
+            el.style.fontWeight = 'normal';
+            el.style.color = '#fff';
+        }
         return;
     }
 
-    $lines.each(function(i) {
+    // Solo actualizar las líneas visibles (±5 del índice activo)
+    const visibleRange = 5;
+    const startIdx = Math.max(0, activeIndex - visibleRange);
+    const endIdx = Math.min(_lyricsLines.length - 1, activeIndex + visibleRange);
+
+    // Ocultar líneas fuera del rango visible
+    for (let i = 0; i < _lyricsLines.length; i++) {
+        if (i < startIdx || i > endIdx) {
+            const el = _lyricsLines[i];
+            if (el.style.opacity !== '0') {
+                el.style.opacity = '0';
+                el.style.transform = 'scale(0.85) translateZ(0)';
+                el.style.textShadow = 'none';
+                el.style.fontWeight = 'normal';
+                el.style.color = '#fff';
+            }
+        }
+    }
+
+    // Actualizar solo las líneas en rango visible
+    for (let i = startIdx; i <= endIdx; i++) {
+        const el = _lyricsLines[i];
         const dist = Math.abs(i - activeIndex);
-        const $el  = $(this);
 
         if (i === activeIndex) {
-            $el.css({
-                color:         currentNeonColor,
-                opacity:       '1',
-                transform:     'scale(1.08)',
-                'text-shadow': `0 0 6px rgba(255,255,255,0.5), 0 0 18px ${currentNeonColor}`,
-                'font-weight': 'bold'
-            });
+            el.style.color = currentNeonColor;
+            el.style.opacity = '1';
+            el.style.transform = 'scale(1.08) translateZ(0)';
+            el.style.textShadow = `0 0 6px rgba(255,255,255,0.5), 0 0 18px ${currentNeonColor}`;
+            el.style.fontWeight = 'bold';
         } else {
             const fade  = Math.max(0,    1 - dist * 0.25);
             const scale = Math.max(0.82, 1 - dist * 0.05);
-            $el.css({
-                color:         '#fff',
-                opacity:       fade.toFixed(2),
-                transform:     `scale(${scale})`,
-                'text-shadow': 'none',
-                'font-weight': 'normal'
-            });
+            el.style.color = '#fff';
+            el.style.opacity = fade.toFixed(2);
+            el.style.transform = `scale(${scale}) translateZ(0)`;
+            el.style.textShadow = 'none';
+            el.style.fontWeight = 'normal';
         }
-    });
+    }
 
-    const activeDom = $lines[activeIndex];
+    // Scroll to active
+    const activeDom = _lyricsLines[activeIndex];
     if (activeDom) {
         activeDom.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }

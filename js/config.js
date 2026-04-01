@@ -2,6 +2,11 @@
 // ====== CONFIGURACIÓN GENERAL        ======
 // ==========================================
 
+// Detección de dispositivo móvil (usado por lyrics.js y effects.js)
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+    || ('ontouchstart' in window)
+    || (window.innerWidth <= 768);
+
 // 1. Música de fondo al aceptar la canción (archivo local)
 const CANCION_FONDO_URL = "assets/audio/Musica.flac";
 

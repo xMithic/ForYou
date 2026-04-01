@@ -1,26 +1,38 @@
 // ==========================================
 // ====== INICIALIZACIÓN PRINCIPAL     ======
+// — Optimizado para rendimiento móvil —
 // ==========================================
 
 $(document).ready(function() {
 
     // --- Cursor siempre visible ---
-    $('*').css('cursor', 'auto');
-    $('body, html').css('cursor', 'auto');
+    document.documentElement.style.cursor = 'auto';
+    document.body.style.cursor = 'auto';
 
     // --- Ambient effects (Vignette, Noise, Breathing Glow) ---
-    $('body').prepend('<div class="noise-overlay"></div>');
-    $('body').prepend('<div class="ambient-glow"></div>');
-    $('body').prepend('<div class="vignette-overlay"></div>');
+    // Usar DocumentFragment + DOM nativo (más rápido que jQuery .prepend)
+    const frag = document.createDocumentFragment();
 
-    // --- Flash layer ---
-    $('body').prepend('<div id="flash-layer"></div>');
+    const vignetteDiv = document.createElement('div');
+    vignetteDiv.className = 'vignette-overlay';
+    frag.appendChild(vignetteDiv);
+
+    const ambientDiv = document.createElement('div');
+    ambientDiv.className = 'ambient-glow';
+    frag.appendChild(ambientDiv);
+
+    // Solo añadir noise overlay si NO es móvil o si el dispositivo tiene buen rendimiento
+    const noiseDiv = document.createElement('div');
+    noiseDiv.className = 'noise-overlay';
+    frag.appendChild(noiseDiv);
+
+    document.body.insertBefore(frag, document.body.firstChild);
 
     // --- Extracción de color dominante de la portada ---
     $('#music-cover').on('load', function() {
         try {
             const canvas = document.createElement('canvas');
-            const context = canvas.getContext('2d');
+            const context = canvas.getContext('2d', { willReadFrequently: true });
             canvas.width = this.width || 50;
             canvas.height = this.height || 50;
             context.drawImage(this, 0, 0, canvas.width, canvas.height);
@@ -54,22 +66,24 @@ $(document).ready(function() {
 
             currentNeonColor = `rgb(${r}, ${g}, ${b})`;
 
-            $('#music-title, #music-author').css({
+            const neonStyle = {
                 color:         currentNeonColor,
                 'text-shadow': `0 0 6px rgba(255,255,255,0.6), 0 0 16px ${currentNeonColor}, 0 0 30px ${currentNeonColor}`
-            });
+            };
+
+            $('#music-title, #music-author').css(neonStyle);
 
         } catch(e) {
             currentNeonColor = '#72efff';
-            $('#music-title, #music-author').css({
+            const fallbackStyle = {
                 color:         currentNeonColor,
                 'text-shadow': `0 0 6px rgba(255,255,255,0.6), 0 0 16px ${currentNeonColor}, 0 0 30px ${currentNeonColor}`
-            });
+            };
+            $('#music-title, #music-author').css(fallbackStyle);
         }
     });
 
     // --- Aplicar estilos del widget ---
-    $('#music-player').css('background', 'transparent');
     $('#music-cover').css({ 'width': `${WIDGET_TAMAÑO_PORTADA}px`, 'height': `${WIDGET_TAMAÑO_PORTADA}px` });
     $('#music-title').css('font-size', `${WIDGET_TAMAÑO_TITULO}px`);
     $('#music-author').css({ 'font-size': `${WIDGET_TAMAÑO_ARTISTA}px`, 'opacity': '0.65' });
