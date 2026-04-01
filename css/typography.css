@@ -1,5 +1,5 @@
 /* =========================================
-   TIPOGRAFÍA & NEON GLOW
+   TIPOGRAFÍA & NEON GLOW — Premium
    ========================================= */
 h1, h2, h3 {
     position: relative;
@@ -13,26 +13,48 @@ h1, h2, h3 {
     text-align: center;
     width: 100%;
     opacity: 0;
-    text-shadow: 0 0 4px var(--text-glow), 0 0 10px var(--text-glow-soft);
+    text-shadow: 
+        0 0 4px var(--text-glow), 
+        0 0 10px var(--text-glow-soft),
+        0 0 20px rgba(114, 239, 255, 0.08);
     padding: 15px 0;
     animation: textBreathe 4s ease-in-out infinite alternate;
 }
 
 @keyframes textBreathe {
-    from { text-shadow: 0 0 4px var(--text-glow), 0 0 10px var(--text-glow-soft); transform: scale(1); }
-    to { text-shadow: 0 0 8px var(--text-glow), 0 0 15px var(--text-glow-soft), 0 0 20px rgba(114, 239, 255, 0.4); transform: scale(1.01); }
+    from { 
+        text-shadow: 0 0 4px var(--text-glow), 0 0 10px var(--text-glow-soft); 
+        transform: scale(1); 
+    }
+    to { 
+        text-shadow: 0 0 8px var(--text-glow), 0 0 15px var(--text-glow-soft), 0 0 25px rgba(114, 239, 255, 0.3); 
+        transform: scale(1.01); 
+    }
 }
 
-/* --- Cursor de escritura estilo CMD --- */
+/* --- Textos largos (carta y final) con glow especial --- */
+#f14, #f22 {
+    text-shadow: 
+        0 0 3px rgba(255,255,255,0.4), 
+        0 0 8px rgba(255,255,255,0.15);
+    line-height: 1.7;
+    letter-spacing: 0.02em;
+}
+
+/* --- Cursor de escritura estilo CMD — pulsante --- */
 .typer-cursor {
     display: inline-block;
     vertical-align: middle;
     height: 24px;
     width: 14px;
     background: #fff;
-    box-shadow: 0 0 6px #fff, 0 0 12px #fff;
+    box-shadow: 
+        0 0 6px #fff, 
+        0 0 12px #fff,
+        0 0 20px rgba(114, 239, 255, 0.3);
     animation: blink-caret .75s step-end infinite;
     margin-left: 4px;
+    border-radius: 1px;
 }
 
 @keyframes blink-caret {

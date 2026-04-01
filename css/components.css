@@ -1,5 +1,6 @@
 /* =========================================
    COMPONENTES INTERACTIVOS
+   — Premium Visual Upgrade —
    ========================================= */
 
 /* --- Cursores clickables --- */
@@ -23,18 +24,20 @@
     font: 25px var(--font-retro);
     margin: 10px;
     opacity: 0;
-    animation-name: visible;
-    animation-duration: 1s;
+    animation-name: optionAppear;
+    animation-duration: 0.8s;
     animation-delay: 3.5s;
     animation-fill-mode: forwards;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
     cursor: pointer;
     color: var(--text-primary);
     background: transparent !important;
     border: none !important;
     outline: none !important;
     box-shadow: none !important;
-    padding: 10px;
-    will-change: opacity, transform, text-shadow;
+    padding: 10px 15px;
+    position: relative;
+    will-change: opacity, transform;
     transform: translateZ(0);
 }
 
@@ -43,19 +46,27 @@
     font: 25px var(--font-retro);
     margin: 10px;
     opacity: 0;
-    animation-name: visible;
-    animation-duration: 1s;
+    animation-name: optionAppear;
+    animation-duration: 0.8s;
     animation-delay: 7s;
     animation-fill-mode: forwards;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
     cursor: pointer;
     text-align: center;
     background: transparent !important;
     border: none !important;
     outline: none !important;
     box-shadow: none !important;
-    padding: 10px;
-    will-change: opacity, transform, text-shadow;
+    padding: 10px 15px;
+    position: relative;
+    will-change: opacity, transform;
     transform: translateZ(0);
+}
+
+/* Aparición con slide-up sutil */
+@keyframes optionAppear {
+    from { opacity: 0; transform: translateY(10px) translateZ(0); }
+    to   { opacity: 1; transform: translateY(0) translateZ(0); }
 }
 
 /* --- Neon glow para opciones y textos largos --- */
@@ -64,39 +75,78 @@
     text-shadow: 0 0 4px rgba(255,255,255,0.5), 0 0 8px rgba(255,255,255,0.2);
 }
 
+/* --- Indicador ">" con pulso neón --- */
+.si::before, .no::before, .weno::before, .dale::before, .salu::before, 
+.copy::before, .reproducir::before, .carta::before,
+.rega::before, .ojo::before, .afi::before, .anillo::before, .marry::before, 
+.meme::before, .meme2::before, .yes::before {
+    content: "";
+    position: absolute;
+    left: -2px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 0;
+    background: var(--blue);
+    border-radius: 2px;
+    box-shadow: 0 0 6px var(--blue), 0 0 12px var(--blue);
+    transition: height 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity: 0;
+}
+
 /* --- Brillo rojo especial --- */
 .yes[style*="color: red"] {
     text-shadow: 0 0 4px red, 0 0 8px red, 0 0 16px red !important;
 }
 
+.yes[style*="color: red"]::before {
+    background: red !important;
+    box-shadow: 0 0 6px red, 0 0 12px red !important;
+}
+
 /* --- Hover / Active para opciones --- */
 .si, .no, .weno, .dale, .salu, .copy, .reproducir, span.go, .carta,
 .rega, .ojo, .afi, .anillo, .marry, .meme, .meme2, .yes {
-    transition: transform var(--transition-fast), text-shadow var(--transition-fast), opacity var(--transition-fast);
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), 
+                text-shadow 0.3s ease, 
+                opacity 0.2s ease,
+                color 0.3s ease;
 }
 
 .si:hover, .no:hover, .weno:hover, .dale:hover, .salu:hover, .copy:hover,
 .reproducir:hover, span.go:hover, .carta:hover, .rega:hover, .ojo:hover,
 .afi:hover, .anillo:hover, .marry:hover, .meme:hover, .meme2:hover {
-    transform: scale(1.1);
+    transform: scale(1.08) translateX(4px) translateZ(0);
     opacity: 1 !important;
-    text-shadow: 0 0 8px rgba(255,255,255,0.8), 0 0 16px rgba(255,255,255,0.4);
+    text-shadow: 0 0 8px rgba(255,255,255,0.8), 0 0 20px rgba(114, 239, 255, 0.5), 0 0 40px rgba(114, 239, 255, 0.15);
+}
+
+.si:hover::before, .no:hover::before, .weno:hover::before, .dale:hover::before, 
+.salu:hover::before, .copy:hover::before, .reproducir:hover::before, span.go:hover::before,
+.carta:hover::before, .rega:hover::before, .ojo:hover::before,
+.afi:hover::before, .anillo:hover::before, .marry:hover::before, 
+.meme:hover::before, .meme2:hover::before, .yes:hover::before {
+    height: 60%;
+    opacity: 1;
 }
 
 .yes:hover {
-    transform: scale(1.1);
+    transform: scale(1.12) translateZ(0);
+    text-shadow: 0 0 10px rgba(255,255,255,0.9), 0 0 25px rgba(114, 239, 255, 0.6);
 }
 
 .si:active, .no:active, .weno:active, .dale:active, .salu:active, .copy:active,
 .reproducir:active, span.go:active, .carta:active, .rega:active, .ojo:active,
 .afi:active, .anillo:active, .marry:active, .meme:active, .meme2:active, .yes:active {
-    transform: scale(0.9) !important;
+    transform: scale(0.92) !important;
     opacity: 0.9 !important;
     animation: textFlicker 0.2s ease-in-out;
     text-shadow: 2px 0 rgba(255,0,0,0.8), -2px 0 rgba(0,255,255,0.8) !important;
 }
 
-/* --- Cofres / Cajas --- */
+/* =========================================
+   COFRES / CAJAS — Premium Edition
+   ========================================= */
 .box {
     width: 100px;
     height: 100px;
@@ -104,46 +154,89 @@
     background-size: 100%;
     margin: 10px 20px;
     cursor: pointer;
-    transition: transform var(--transition-fast), filter var(--transition-medium), opacity var(--transition-fast);
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), 
+                filter 0.4s ease;
     animation: floatingBox 3s ease-in-out infinite alternate;
     will-change: transform, filter;
     transform: translateZ(0);
+    position: relative;
 }
 
+/* Cada cofre flota a ritmos diferentes */
+.ca1 { animation-delay: 0s; }
+.ca2 { animation-delay: 0.6s; }
+.ca3 { animation-delay: 1.2s; }
+
 @keyframes floatingBox {
-    from { transform: translateY(0) translateZ(0); }
-    to { transform: translateY(-5px) translateZ(0); }
+    0%   { transform: translateY(0) translateZ(0); }
+    50%  { transform: translateY(-6px) translateZ(0); }
+    100% { transform: translateY(-3px) translateZ(0); }
+}
+
+/* Aura sutil constante debajo de los cofres */
+.box::after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 4px;
+    background: radial-gradient(ellipse, rgba(114, 239, 255, 0.3), transparent);
+    border-radius: 50%;
+    transition: opacity 0.3s ease, width 0.3s ease;
+    pointer-events: none;
 }
 
 .box:hover {
     background: url(https://i.imgur.com/FIrcwmM.png) no-repeat center center;
     background-size: 100%;
-    transform: translateY(-8px) scale(1.05) translateZ(0);
-    filter: drop-shadow(0 0 15px rgba(114, 239, 255, 0.6)) drop-shadow(0 0 30px rgba(255, 96, 180, 0.4));
-    animation: none; /* Se detiene al hacer hover */
+    transform: translateY(-12px) scale(1.1) translateZ(0);
+    filter: drop-shadow(0 0 12px rgba(114, 239, 255, 0.5)) 
+            drop-shadow(0 0 25px rgba(255, 96, 180, 0.3))
+            drop-shadow(0 0 40px rgba(114, 239, 255, 0.15));
+    animation: none;
+}
+
+.box:hover::after {
+    width: 80%;
+    opacity: 1;
+    background: radial-gradient(ellipse, rgba(114, 239, 255, 0.5), transparent);
 }
 
 .box:active {
     transform: translateY(-2px) scale(0.95) translateZ(0);
-    filter: drop-shadow(0 0 5px rgba(114, 239, 255, 0.8)) drop-shadow(0 0 15px rgba(255, 96, 180, 0.6));
+    filter: drop-shadow(0 0 5px rgba(114, 239, 255, 0.8));
 }
 
-/* --- Imágenes inline --- */
+/* =========================================
+   IMÁGENES INLINE — Versión Premium
+   ========================================= */
+
+/* --- Personaje (tú) --- */
 .img1 {
     width: 150px;
     height: 150px;
     background: url(https://i.imgur.com/QLrOZMR.png);
     background-size: cover;
-    transition: filter 0.3s ease, transform 0.3s ease;
+    transition: filter 0.4s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
     will-change: transform, filter;
     transform: translateZ(0);
+    animation: characterBreathe 4s ease-in-out infinite alternate;
+}
+
+@keyframes characterBreathe {
+    0%   { transform: translateY(0) scale(1) translateZ(0); filter: drop-shadow(0 0 6px rgba(255,255,255,0.2)); }
+    100% { transform: translateY(-3px) scale(1.02) translateZ(0); filter: drop-shadow(0 0 12px rgba(255,255,255,0.4)); }
 }
 
 .img1:hover {
-    filter: drop-shadow(0 0 15px rgba(255,255,255,0.8));
-    transform: scale(1.05) translateZ(0);
+    filter: drop-shadow(0 0 15px rgba(255,255,255,0.7)) drop-shadow(0 0 30px rgba(114, 239, 255, 0.3));
+    transform: scale(1.08) translateY(-5px) translateZ(0);
+    animation: none;
 }
 
+/* --- Icono personaje (escenario) --- */
 #ico {
     position: absolute;
     bottom: 5px;
@@ -154,74 +247,119 @@
     background: url(https://i.imgur.com/SVZxE8c.png) no-repeat center center;
     background-size: 100%;
     filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+    animation: icoFloat 5s ease-in-out infinite alternate;
 }
 
+@keyframes icoFloat {
+    0%   { transform: translateX(-50%) translateY(0); filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3)); }
+    100% { transform: translateX(-50%) translateY(-5px); filter: drop-shadow(0 0 14px rgba(255, 255, 255, 0.6)); }
+}
+
+/* --- Anillos — Glow dorado premium --- */
 .ring {
     width: 150px;
     height: 150px;
     background: url(https://i.imgur.com/oEs8TdL.png);
     background-size: cover;
-    transition: transform 0.3s ease, filter 0.3s ease;
-    animation: floatingRing 4s ease-in-out infinite alternate;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), filter 0.4s ease;
+    animation: floatingRing 4s ease-in-out infinite alternate, goldenGlow 3s ease-in-out infinite;
     will-change: transform, filter;
     transform: translateZ(0);
 }
 
 @keyframes floatingRing {
-    from { transform: translateY(0) translateZ(0); }
-    to { transform: translateY(-5px) translateZ(0); }
+    0%   { transform: translateY(0) rotate(-2deg) translateZ(0); }
+    100% { transform: translateY(-8px) rotate(2deg) translateZ(0); }
 }
 
 .ring:hover {
-    filter: drop-shadow(0 0 20px rgba(114, 239, 255, 0.8));
-    transform: scale(1.1) translateY(-10px) translateZ(0);
+    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8)) 
+            drop-shadow(0 0 40px rgba(255, 180, 0, 0.4));
+    transform: scale(1.15) translateY(-12px) rotate(5deg) translateZ(0);
+    animation: none;
 }
 
+/* --- Ichigo — Glow rosado mágico --- */
 .ichigo {
     width: 200px;
     height: 200px;
     background: url(https://i.imgur.com/hGY3pGX.png);
     background-size: cover;
-    transition: filter 0.3s ease;
-    will-change: filter;
+    transition: filter 0.4s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: filter, transform;
     transform: translateZ(0);
+    animation: ichigoGlow 5s ease-in-out infinite alternate;
+}
+
+@keyframes ichigoGlow {
+    0%   { filter: drop-shadow(0 0 5px rgba(255, 96, 180, 0.2)); transform: scale(1) translateZ(0); }
+    100% { filter: drop-shadow(0 0 15px rgba(255, 96, 180, 0.5)) drop-shadow(0 0 30px rgba(255, 96, 180, 0.15)); transform: scale(1.02) translateZ(0); }
 }
 
 .ichigo:hover {
-    filter: drop-shadow(0 0 20px rgba(255, 96, 180, 0.8));
+    filter: drop-shadow(0 0 20px rgba(255, 96, 180, 0.8)) drop-shadow(0 0 40px rgba(255, 96, 180, 0.3));
+    transform: scale(1.05) translateZ(0);
+    animation: none;
 }
 
-/* --- Scrollbar personalizada para textos largos --- */
+/* =========================================
+   SCROLLBAR PERSONALIZADA — Neón
+   ========================================= */
 #f14::-webkit-scrollbar,
 #f15::-webkit-scrollbar,
 #f22::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
 }
 
 #f14::-webkit-scrollbar-track,
 #f15::-webkit-scrollbar-track,
 #f22::-webkit-scrollbar-track {
-    background: var(--bg-primary);
-    border-radius: var(--border-radius-sm);
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
 }
 
 #f14::-webkit-scrollbar-thumb,
 #f15::-webkit-scrollbar-thumb,
 #f22::-webkit-scrollbar-thumb {
-    background: #fff;
-    border-radius: var(--border-radius-sm);
-    box-shadow: 0 0 5px rgba(255,255,255,0.8);
+    background: linear-gradient(to bottom, rgba(114, 239, 255, 0.4), rgba(255, 96, 180, 0.4));
+    border-radius: 10px;
+    box-shadow: 0 0 6px rgba(114, 239, 255, 0.3);
 }
 
 #f14::-webkit-scrollbar-thumb:hover,
 #f15::-webkit-scrollbar-thumb:hover,
 #f22::-webkit-scrollbar-thumb:hover {
-    background: var(--blue);
-    box-shadow: 0 0 10px var(--blue);
+    background: linear-gradient(to bottom, rgba(114, 239, 255, 0.7), rgba(255, 96, 180, 0.7));
+    box-shadow: 0 0 12px rgba(114, 239, 255, 0.5);
 }
 
-/* --- Animación de aparición --- */
+/* --- Animación de aparición (fallback) --- */
 @keyframes visible {
     from { opacity: 0; }
     to { opacity: 1; }
+}
+
+/* =========================================
+   MOBILE: Simplificar efectos costosos
+   ========================================= */
+@media screen and (max-width: 768px) {
+    .box::after {
+        display: none;
+    }
+
+    .si::before, .no::before, .weno::before, .dale::before, .salu::before, 
+    .copy::before, .reproducir::before, .carta::before,
+    .rega::before, .ojo::before, .afi::before, .anillo::before, .marry::before, 
+    .meme::before, .meme2::before, .yes::before {
+        display: none;
+    }
+
+    .img1, #ico, .ring, .ichigo {
+        animation: none !important;
+    }
+
+    .box:hover {
+        filter: none;
+        transform: translateY(0) translateZ(0);
+    }
 }

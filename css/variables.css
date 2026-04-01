@@ -1,9 +1,10 @@
 /* =========================================
-   VARIABLES / DESIGN TOKENS
+   VARIABLES / DESIGN TOKENS — Premium
    ========================================= */
 :root {
     --pink: #ff60b4;
     --blue: #72efff;
+    --gold: #ffd700;
     --bg-primary: #111;
     --text-primary: #f9f9f9;
     --text-glow: rgba(255, 255, 255, 0.6);
@@ -12,6 +13,7 @@
     --font-mono: 'Inconsolata', monospace;
     --transition-fast: 0.2s ease;
     --transition-medium: 0.4s ease;
+    --transition-smooth: 0.35s cubic-bezier(0.22, 1, 0.36, 1);
     --border-radius-sm: 4px;
     --border-radius-md: 10px;
     --border-radius-lg: 16px;
