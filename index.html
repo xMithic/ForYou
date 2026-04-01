@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="Un Juego De Amor — una experiencia interactiva hecha con cariño.">
     <title>Un Juego De Amor</title>
 
@@ -30,10 +30,10 @@
     </div>
 
     <!-- ====== REPRODUCTOR DE MÚSICA ====== -->
-    <div id="music-player" style="display: none; position: absolute; top: 20px; left: 20px; z-index: 10000; background: transparent; padding: 10px 15px; border-radius: 10px; border: none; max-width: 500px; min-width: 300px; flex-direction: column;">
-        <div style="display: flex; align-items: center;">
-            <img id="music-cover" src="" crossorigin="anonymous" style="width: 55px; height: 55px; border-radius: 50%; margin-right: 15px; object-fit: cover; transition: box-shadow 1s;">
-            <div style="display: flex; flex-direction: column; justify-content: center; min-width: 150px; white-space: nowrap;">
+    <div id="music-player">
+        <div>
+            <img id="music-cover" src="" crossorigin="anonymous" style="width: 55px; height: 55px; border-radius: 50%; object-fit: cover; transition: box-shadow 1s;">
+            <div style="display: flex; flex-direction: column; justify-content: center; min-width: 150px; text-align: center;">
                 <div id="music-title" style="transition: color 1s, text-shadow 1s;"></div>
                 <div id="music-author" style="transition: color 1s, text-shadow 1s;"></div>
             </div>
