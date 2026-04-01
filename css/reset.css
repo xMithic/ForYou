@@ -1,5 +1,6 @@
 /* =========================================
    RESET & BASE
+   — Optimizado para rendimiento móvil —
    ========================================= */
 * {
     -webkit-tap-highlight-color: transparent !important;
@@ -11,6 +12,23 @@
     user-select: none !important;
     outline: none !important;
     box-sizing: border-box;
+}
+
+/* Prevenir zoom accidental en móvil (causa lag severo) */
+html {
+    touch-action: manipulation;
+    -ms-touch-action: manipulation;
+    overflow: hidden;
+    height: 100%;
+    height: 100dvh;
+}
+
+body {
+    touch-action: manipulation;
+    -ms-touch-action: manipulation;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeSpeed;
 }
 
 ::selection {

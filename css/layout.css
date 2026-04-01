@@ -16,27 +16,49 @@ body {
     margin: 0;
     padding: 0;
     min-height: 100vh;
+    min-height: 100dvh; /* dynamic viewport for mobile */
 }
 
-/* Efecto CRT retro mejorado */
+/* =========================================
+   EFECTO CRT + FISHEYE PROFESIONAL
+   — Capas separadas para rendimiento —
+   ========================================= */
+
+/* CAPA 1: Líneas de escaneo CRT (scanlines) */
 body::after {
-    content: " ";
+    content: "";
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-    background-size: 100% 2px, 3px 100%;
+    background:
+        /* Horizontal scanlines */
+        repeating-linear-gradient(
+            to bottom,
+            transparent 0px,
+            transparent 1px,
+            rgba(0, 0, 0, 0.15) 1px,
+            rgba(0, 0, 0, 0.15) 2px
+        ),
+        /* RGB sub-pixel columns (muy sutil) */
+        repeating-linear-gradient(
+            to right,
+            rgba(255, 0, 0, 0.03) 0px,
+            rgba(0, 255, 0, 0.02) 1px,
+            rgba(0, 0, 255, 0.03) 2px,
+            transparent 3px
+        );
     pointer-events: none;
     z-index: 99999;
-    will-change: opacity;
-    animation: crtPulse 4s infinite alternate;
+    animation: crtPulse 6s ease-in-out infinite alternate;
+    transform: translateZ(0);
+    contain: strict;
 }
 
 @keyframes crtPulse {
-    0%, 100% { opacity: 0.7; }
-    50% { opacity: 0.9; }
+    0%, 100% { opacity: 0.55; }
+    50%      { opacity: 0.75; }
 }
 
-/* --- Cristal CRT Curvo (Efecto Fisheye Avanzado) --- */
+/* CAPA 2: Cristal CRT Convexo — Fisheye Óptico de Alto Nivel */
 body::before {
     content: "";
     position: fixed;
@@ -44,19 +66,61 @@ body::before {
     pointer-events: none;
     z-index: 99998;
     
-    /* Ilusión de cristal convexo puramente óptico (Hardware Accelerated) */
+    /* === MULTIPLICACIÓN DE SOMBRAS INTERIORES === 
+       Esto crea la ilusión óptica de curvatura del cristal CRT:
+       - Sombras panorámicas graduales (borde a centro)
+       - Hilo de luz en el borde del tubo
+       - Reflejo especular superior
+    */
     box-shadow: 
-        inset 0 0 10vw rgba(0, 0, 0, 0.8), /* Oscurecimiento panorámico */
-        inset 0 0 4vw rgba(0, 0, 0, 0.95), /* Viñeta oscura extrema en ángulos */
-        inset 0 0 2px 1px rgba(255, 255, 255, 0.07); /* Hilo de luz rasgando el cristal curvo */
+        /* 1. Viñeta oscura profunda en las esquinas (simula la curvatura extrema) */
+        inset 0 0 18vmin rgba(0, 0, 0, 0.95),
+        /* 2. Segunda capa de viñeta más suave y amplia */
+        inset 0 0 35vmin rgba(0, 0, 0, 0.5),
+        /* 3. Tercer anillo panorámico para transición gradual */
+        inset 0 0 55vmin rgba(0, 0, 0, 0.2),
+        /* 4. Borde luminoso del tubo CRT (hilo de luz del cristal curvo) */
+        inset 0 0 3px 1px rgba(255, 255, 255, 0.06),
+        /* 5. Aberración cromática sutil en los bordes */
+        inset 3px 0 8px rgba(255, 0, 0, 0.025),
+        inset -3px 0 8px rgba(0, 100, 255, 0.025);
     
-    /* Mix de sombras y brillo superior para efecto "Fisheye Convexo" realista */
+    /* === REFLEJOS DE CRISTAL CONVEXO ===
+       Múltiples gradientes apilados para crear profundidad
+       y la ilusión de un monitor CRT curvado real.
+    */
     background: 
-        /* Reflejo superior del cristal de tubo CRT */
-        radial-gradient(ellipse at 50% 10%, rgba(255, 255, 255, 0.1) 0%, transparent 40%),
-        /* Sombra de viñeta panorámica para que los costados parezcan más lejanos o hundidos */
-        radial-gradient(circle at 50% 50%, transparent 40%, rgba(0, 0, 0, 0.8) 140%);
-    will-change: opacity;
+        /* Reflejo especular superior — "highlight" del tubo de cristal */
+        radial-gradient(
+            ellipse 80% 30% at 50% 8%,
+            rgba(255, 255, 255, 0.09) 0%,
+            rgba(255, 255, 255, 0.03) 40%,
+            transparent 70%
+        ),
+        /* Reflejo inferior secundario (bounce light del escritorio) */
+        radial-gradient(
+            ellipse 60% 15% at 50% 95%,
+            rgba(255, 255, 255, 0.03) 0%,
+            transparent 60%
+        ),
+        /* Viñeta radial central — "barrel distortion" óptica */
+        radial-gradient(
+            circle at 50% 50%,
+            transparent 35%,
+            rgba(0, 0, 0, 0.15) 55%,
+            rgba(0, 0, 0, 0.55) 80%,
+            rgba(0, 0, 0, 0.85) 100%
+        ),
+        /* Tinte cálido en los bordes (simula cristal con coating) */
+        radial-gradient(
+            ellipse at 50% 50%,
+            transparent 50%,
+            rgba(20, 10, 5, 0.15) 100%
+        );
+    
+    border-radius: 12px;
+    transform: translateZ(0);
+    contain: strict;
 }
 
 /* --- Overlay "¿Quieres Jugar?" --- */
@@ -98,7 +162,53 @@ body::before {
     align-items: center;
     justify-content: center;
     
-    /* Fisheye Estático Optimizado (Cero Lag y 100% Clickeable) */
-    transform: scale(1.04); /* Zoom panorámico puro, levemente superior para enfatizar curva óptica */
+    /* Fisheye: Zoom panorámico puro */
+    transform: scale(1.04);
     will-change: transform;
+}
+
+/* =========================================
+   MOBILE CRT: Versión optimizada
+   ========================================= */
+@media screen and (max-width: 768px) {
+
+    /* Scanlines más ligeras en móvil */
+    body::after {
+        background:
+            repeating-linear-gradient(
+                to bottom,
+                transparent 0px,
+                transparent 2px,
+                rgba(0, 0, 0, 0.08) 2px,
+                rgba(0, 0, 0, 0.08) 4px
+            );
+        animation: none !important;
+        opacity: 0.5;
+    }
+
+    /* Fisheye simplificado: menos capas de gradiente */
+    body::before {
+        box-shadow: 
+            inset 0 0 15vmin rgba(0, 0, 0, 0.9),
+            inset 0 0 30vmin rgba(0, 0, 0, 0.4),
+            inset 0 0 2px 1px rgba(255, 255, 255, 0.04);
+        background: 
+            radial-gradient(
+                ellipse 80% 30% at 50% 8%,
+                rgba(255, 255, 255, 0.06) 0%,
+                transparent 60%
+            ),
+            radial-gradient(
+                circle at 50% 50%,
+                transparent 35%,
+                rgba(0, 0, 0, 0.15) 55%,
+                rgba(0, 0, 0, 0.5) 80%,
+                rgba(0, 0, 0, 0.8) 100%
+            );
+        border-radius: 8px;
+    }
+
+    #out-all {
+        transform: scale(1.02);
+    }
 }

@@ -1,5 +1,6 @@
 /* =========================================
    EFECTOS VISUALES & ANIMACIONES
+   — Optimizado para rendimiento móvil —
    ========================================= */
 
 /* --- Partículas flotantes (blancas) --- */
@@ -15,14 +16,15 @@
     border-radius: 1px;
     will-change: transform, opacity;
     transform: translateZ(0);
+    contain: strict;
 }
 
 @keyframes floatUp {
-    0% { transform: translateY(10vh) scale(0.5); opacity: 0; }
-    10% { opacity: 0.5; }
-    50% { opacity: 0.7; }
-    90% { opacity: 0.4; }
-    100% { transform: translateY(-120vh) scale(1.2); opacity: 0; }
+    0%   { transform: translateY(10vh) scale(0.5) translateZ(0); opacity: 0; }
+    10%  { opacity: 0.5; }
+    50%  { opacity: 0.7; }
+    90%  { opacity: 0.4; }
+    100% { transform: translateY(-120vh) scale(1.2) translateZ(0); opacity: 0; }
 }
 
 /* --- Flash cinemático --- */
@@ -39,7 +41,7 @@
 }
 
 @keyframes flashAnim {
-    0% { opacity: 0.8; }
+    0%   { opacity: 0.8; }
     100% { opacity: 0; }
 }
 
@@ -48,10 +50,10 @@
     animation: textFlicker 0.4s ease-in-out;
 }
 @keyframes textFlicker {
-    0%   { opacity: 0.8; transform: skewX(0deg); text-shadow: 2px 0 rgba(255,0,0,0.8), -2px 0 rgba(0,255,255,0.8); }
-    20%  { opacity: 1;   transform: skewX(-15deg); text-shadow: none; }
-    40%  { opacity: 0.6; transform: skewX(15deg); text-shadow: -2px 0 rgba(255,0,0,0.8), 2px 0 rgba(0,255,255,0.8); }
-    60%  { opacity: 1;   transform: skewX(0deg); text-shadow: none; }
+    0%   { opacity: 0.8; transform: skewX(0deg);    text-shadow: 2px 0 rgba(255,0,0,0.8), -2px 0 rgba(0,255,255,0.8); }
+    20%  { opacity: 1;   transform: skewX(-15deg);   text-shadow: none; }
+    40%  { opacity: 0.6; transform: skewX(15deg);    text-shadow: -2px 0 rgba(255,0,0,0.8), 2px 0 rgba(0,255,255,0.8); }
+    60%  { opacity: 1;   transform: skewX(0deg);     text-shadow: none; }
     100% { opacity: 1;   text-shadow: inherit; }
 }
 
@@ -66,29 +68,29 @@
     );
     pointer-events: none;
     z-index: 2;
-    will-change: opacity;
     transform: translateZ(0);
+    contain: strict;
 }
 
-/* --- Ruido ambiental sutil (textura de pantalla antigua) --- */
+/* --- Ruido ambiental — ESTÁTICO en móvil para cero lag --- */
 .noise-overlay {
     position: fixed;
-    top: -50%; left: -50%;
-    width: 200%; height: 200%;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    background-size: 256px 256px;
     pointer-events: none;
     z-index: 3;
-    opacity: 0.4;
-    animation: noiseShift 0.15s steps(3) infinite;
-    will-change: transform;
+    opacity: 0.35;
+    animation: noiseShift 0.3s steps(2) infinite;
     transform: translateZ(0);
+    contain: strict;
 }
 
 @keyframes noiseShift {
-    0%   { transform: translate(0, 0); }
-    33%  { transform: translate(-2px, 1px); }
-    66%  { transform: translate(1px, -2px); }
-    100% { transform: translate(0, 0); }
+    0%   { transform: translate(0, 0)     translateZ(0); }
+    50%  { transform: translate(-3px, 2px) translateZ(0); }
+    100% { transform: translate(0, 0)      translateZ(0); }
 }
 
 /* --- Respiración ambiental del fondo --- */
@@ -104,12 +106,12 @@
     );
     pointer-events: none;
     z-index: 0;
-    will-change: opacity, transform;
     animation: ambientBreathe 8s ease-in-out infinite alternate;
+    contain: layout style;
 }
 
 @keyframes ambientBreathe {
-    0% { opacity: 0.3; }
+    0%   { opacity: 0.3; }
     100% { opacity: 0.8; }
 }
 
@@ -126,6 +128,46 @@
     animation: screenSlideIn 0.5s ease-out;
 }
 @keyframes screenSlideIn {
-    0% { opacity: 0; transform: translateY(15px); }
-    100% { opacity: 1; transform: translateY(0); }
+    0%   { opacity: 0; transform: translateY(15px) translateZ(0); }
+    100% { opacity: 1; transform: translateY(0) translateZ(0); }
+}
+
+/* =========================================
+   MOBILE: Desactivar animaciones pesadas
+   ========================================= */
+@media screen and (max-width: 768px) {
+
+    /* Noise overlay: ESTÁTICO en móvil (quitar animación, es el asesino #1 de FPS) */
+    .noise-overlay {
+        animation: none !important;
+        opacity: 0.2;
+        background-size: 128px 128px;
+    }
+
+    /* Ambient glow: pulso más lento, menor cambio */
+    .ambient-glow {
+        animation-duration: 12s;
+        width: 100vw;
+        height: 100vh;
+    }
+
+    /* Partículas: reducir duración y complejidad */
+    .particle {
+        animation-duration: 25s;
+    }
+
+    /* Desactivar text-shadow breathe en headings para ahorrar pintura */
+    h1, h2, h3 {
+        animation: none !important;
+    }
+}
+
+/* Respeta prefer-reduced-motion del sistema */
+@media (prefers-reduced-motion: reduce) {
+    .noise-overlay,
+    .ambient-glow,
+    .particle,
+    h1, h2, h3 {
+        animation: none !important;
+    }
 }

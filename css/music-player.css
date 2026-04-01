@@ -1,24 +1,65 @@
 /* =========================================
    REPRODUCTOR DE MÚSICA & LETRAS
+   — Centrado arriba para todas resoluciones —
    ========================================= */
 
+/* --- Contenedor principal del reproductor --- */
+#music-player {
+    position: fixed !important;
+    top: 12px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 10000;
+    background: transparent !important;
+    padding: 10px 20px !important;
+    border-radius: 12px;
+    border: none !important;
+    width: auto !important;
+    max-width: 90vw !important;
+    min-width: 280px !important;
+    display: none;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    box-sizing: border-box;
+}
+
+/* --- Info row (cover + title/author) --- */
+#music-player > div:first-child {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 12px;
+}
+
+/* --- Título --- */
 #music-title {
     font: 26px var(--font-retro);
     padding: 10px;
     margin: -10px;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 260px;
 }
 
+/* --- Artista --- */
 #music-author {
     font: 20px var(--font-retro);
     padding: 10px;
     margin: -10px;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 260px;
 }
 
 /* --- Vinilo giratorio --- */
+#music-cover {
+    flex-shrink: 0;
+}
+
 .spin-vinyl {
     animation: rotateVinyl 8s linear infinite;
 }
@@ -27,12 +68,12 @@
 }
 @keyframes rotateVinyl {
     from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    to   { transform: rotate(360deg); }
 }
 
 /* --- Panel de letras estilo Spotify --- */
 #lyrics-container {
-    /* Fade vertical MÁS suave para evitar cortes duros del neón */
+    /* Fade vertical suave */
     -webkit-mask-image: linear-gradient(
         to bottom,
         transparent 0%,
@@ -53,12 +94,13 @@
     );
     scrollbar-width: none;
     scroll-behavior: smooth;
-    /* Evitar que el glow se corte horizontalmente */
     overflow-x: visible;
     padding: 0 20px;
     margin: 0 -20px;
-    will-change: transform, opacity;
     transform: translateZ(0);
+    contain: content;
+    width: 100%;
+    box-sizing: border-box;
 }
 #lyrics-container::-webkit-scrollbar { display: none; }
 
@@ -70,7 +112,7 @@
     padding: 5px 20px;
     line-height: 1.5;
     opacity: 0.35;
-    transform: scale(0.9);
+    transform: scale(0.9) translateZ(0);
     transform-origin: center center;
     transition:
         color 0.15s ease-out,
@@ -82,4 +124,46 @@
     white-space: normal;
     word-break: break-word;
     will-change: opacity, transform, color, text-shadow;
+    contain: content;
+}
+
+/* --- Responsive: Móvil --- */
+@media screen and (max-width: 768px) {
+    #music-player {
+        top: 6px !important;
+        padding: 8px 12px !important;
+        min-width: 0 !important;
+        max-width: 95vw !important;
+    }
+
+    #music-cover {
+        width: 42px !important;
+        height: 42px !important;
+    }
+
+    #music-title {
+        font-size: 20px !important;
+        max-width: 180px;
+    }
+
+    #music-author {
+        font-size: 14px !important;
+        max-width: 180px;
+    }
+
+    .lyric-scroll-line {
+        font-size: 15px;
+        padding: 3px 10px;
+    }
+
+    #lyrics-container {
+        height: 100px !important;
+    }
+}
+
+/* Tablets */
+@media screen and (min-width: 769px) and (max-width: 1200px) {
+    #music-player {
+        max-width: 500px !important;
+    }
 }
