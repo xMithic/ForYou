@@ -101,7 +101,7 @@ function submitUserName() {
         setTimeout(() => $input.removeClass('error-shake'), 500);
 
         $errorMsg.removeClass('password-success').addClass('password-error')
-                  .text('> ACCESO DENEGADO. ¡Esa no es la contraseña!');
+                  .text('> ACCESO DENEGADO. Esa no es la contraseña...');
 
         triggerScreenShake();
         triggerChromaticFlash();
