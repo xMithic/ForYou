@@ -44,6 +44,14 @@
     background: linear-gradient(135deg, rgba(255, 200, 150, 0.9), rgba(255, 96, 180, 0.7));
 }
 
+.screen-flash-green {
+    background: linear-gradient(135deg, rgba(0, 255, 136, 0.95), rgba(0, 200, 100, 0.7)) !important;
+}
+
+.screen-flash-red {
+    background: linear-gradient(135deg, rgba(255, 34, 85, 0.95), rgba(200, 0, 50, 0.7)) !important;
+}
+
 @keyframes flashAnim {
     0%   { opacity: 0.85; }
     30%  { opacity: 0.4; }

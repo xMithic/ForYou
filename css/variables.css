@@ -1,21 +1,86 @@
 /* =========================================
-   VARIABLES / DESIGN TOKENS — Premium
+   VARIABLES Y COLORES CONFIGURABLES — Design Tokens
    ========================================= */
 :root {
-    --pink: #ff60b4;
-    --blue: #72efff;
-    --gold: #ffd700;
-    --bg-primary: #111;
-    --text-primary: #f9f9f9;
-    --text-glow: rgba(255, 255, 255, 0.6);
-    --text-glow-soft: rgba(255, 255, 255, 0.3);
-    --font-retro: 'VT323', monospace;
-    --font-mono: 'Inconsolata', monospace;
-    --transition-fast: 0.2s ease;
-    --transition-medium: 0.4s ease;
-    --transition-smooth: 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-    --border-radius-sm: 4px;
-    --border-radius-md: 10px;
-    --border-radius-lg: 16px;
-    --border-radius-full: 50%;
+   /* ===================================================
+       🎨 1. SECCIÓN DE ACCESO / CONTRASEÑA (#f4)
+       (Cambia aquí los colores del apartado del nombre de acceso)
+       =================================================== */
+   --paso-nombre-titulo-color: #ff2255;
+   /* Color del título "ACCESO RESTRINGIDO" */
+   --paso-nombre-titulo-brillo: rgba(255, 34, 85, 0.9);
+   /* Brillo neón del título */
+
+   --paso-nombre-subtitulo-color: #75b3ec;
+   /* Color del subtítulo "Solo si eres..." */
+   --paso-nombre-subtitulo-brillo: rgba(255, 255, 255, 0.6);
+
+   --paso-nombre-input-fondo: rgba(20, 5, 12, 0.92);
+   /* Fondo de la casilla de texto */
+   --paso-nombre-input-borde: #ff2255;
+   /* Color del borde normal */
+   --paso-nombre-input-texto: #ffffff;
+   /* Color de las letras al escribir */
+
+   --paso-nombre-input-focus-borde: #72efff;
+   /* Borde al hacer clic/escribir */
+   --paso-nombre-input-focus-texto: #72efff;
+   /* Texto al estar activo */
+   --paso-nombre-input-focus-brillo: rgba(114, 239, 255, 0.7);
+
+   --paso-nombre-boton-texto: #6ba3e4;
+   /* Color del botón "[ VALIDAR CONTRASEÑA ]" */
+   --paso-nombre-boton-fondo: rgba(40, 10, 20, 0.6);
+   --paso-nombre-boton-borde: rgba(255, 68, 102, 0.4);
+
+   --paso-nombre-boton-hover-texto: #72efff;
+   /* Color del botón al pasar el cursor */
+   --paso-nombre-boton-hover-fondo: rgba(10, 30, 40, 0.8);
+   --paso-nombre-boton-hover-borde: #72efff;
+
+   --paso-nombre-error-color: #ff2255;
+   /* Color del mensaje de acceso denegado (rojo) */
+   --paso-nombre-exito-color: #00ff88;
+   /* Color del mensaje y borde al acertar acceso (verde) */
+   --paso-nombre-exito-brillo: rgba(0, 255, 136, 0.8);
+
+   /* ===================================================
+       🖼️ 2. IMÁGENES Y PERSONAJES CONFIGURABLES
+       =================================================== */
+   --img-personaje-principal: url("https://i.imgur.com/QLrOZMR.png");
+   --img-avatar-escenario: url("https://i.imgur.com/SVZxE8c.png");
+   --img-personaje-pareja: url("https://i.imgur.com/hGY3pGX.png");
+   --img-anillos: url("https://i.imgur.com/oEs8TdL.png");
+   --img-cofre-cerrado: url("https://i.imgur.com/ViqP2fB.png");
+   --img-cofre-abierto: url("https://i.imgur.com/FIrcwmM.png");
+   --img-fondo-escenario: url("https://i.imgur.com/kx3psEN.png");
+
+   /* ===================================================
+       🌈 3. COLORES Y EFECTOS GENERALES DEL JUEGO
+       =================================================== */
+   --pink: #ff60b4;
+   /* Rosado neón principal */
+   --blue: #72efff;
+   /* Azul/Cian neón principal */
+   --gold: #ffd700;
+   /* Dorado neón */
+   --red: #ff2255;
+   /* Rojo advertencia/terror */
+   --bg-primary: #111111;
+   /* Fondo oscuro general */
+   --text-primary: #f9f9f9;
+   /* Color de texto principal */
+   --text-glow: rgba(255, 255, 255, 0.6);
+   --text-glow-soft: rgba(255, 255, 255, 0.3);
+
+   /* --- Fuentes y transiciones --- */
+   --font-retro: 'VT323', monospace;
+   --font-mono: 'Inconsolata', monospace;
+   --transition-fast: 0.2s ease;
+   --transition-medium: 0.4s ease;
+   --transition-smooth: 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+   --border-radius-sm: 4px;
+   --border-radius-md: 10px;
+   --border-radius-lg: 16px;
+   --border-radius-full: 50%;
 }

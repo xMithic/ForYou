@@ -150,7 +150,7 @@
 .box {
     width: 100px;
     height: 100px;
-    background: url(https://i.imgur.com/ViqP2fB.png) no-repeat center center;
+    background: var(--img-cofre-cerrado) no-repeat center center;
     background-size: 100%;
     margin: 10px 20px;
     cursor: pointer;
@@ -189,7 +189,7 @@
 }
 
 .box:hover {
-    background: url(https://i.imgur.com/FIrcwmM.png) no-repeat center center;
+    background: var(--img-cofre-abierto) no-repeat center center;
     background-size: 100%;
     transform: translateY(-12px) scale(1.1) translateZ(0);
     filter: drop-shadow(0 0 12px rgba(114, 239, 255, 0.5)) 
@@ -217,7 +217,7 @@
 .img1 {
     width: 150px;
     height: 150px;
-    background: url(https://i.imgur.com/QLrOZMR.png);
+    background: var(--img-personaje-principal) no-repeat center center;
     background-size: cover;
     transition: filter 0.4s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
     will-change: transform, filter;
@@ -244,7 +244,7 @@
     transform: translateX(-50%);
     width: 130px;
     height: 130px;
-    background: url(https://i.imgur.com/SVZxE8c.png) no-repeat center center;
+    background: var(--img-avatar-escenario) no-repeat center center;
     background-size: 100%;
     filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
     animation: icoFloat 5s ease-in-out infinite alternate;
@@ -259,7 +259,7 @@
 .ring {
     width: 150px;
     height: 150px;
-    background: url(https://i.imgur.com/oEs8TdL.png);
+    background: var(--img-anillos) no-repeat center center;
     background-size: cover;
     transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), filter 0.4s ease;
     animation: floatingRing 4s ease-in-out infinite alternate, goldenGlow 3s ease-in-out infinite;
@@ -283,7 +283,7 @@
 .ichigo {
     width: 200px;
     height: 200px;
-    background: url(https://i.imgur.com/hGY3pGX.png);
+    background: var(--img-personaje-pareja) no-repeat center center;
     background-size: cover;
     transition: filter 0.4s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
     will-change: filter, transform;
@@ -340,6 +340,126 @@
 }
 
 /* =========================================
+   CAMPO DE CONTRASEÑA DE SUSPENSO & TERROR
+   ========================================= */
+.name-input-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 15px;
+    position: relative;
+}
+
+#user-name-input {
+    background: var(--paso-nombre-input-fondo);
+    border: 2px solid var(--paso-nombre-input-borde);
+    border-radius: 8px;
+    color: var(--paso-nombre-input-texto);
+    font: 26px var(--font-retro);
+    padding: 14px 24px;
+    text-align: center;
+    outline: none;
+    box-shadow: 0 0 20px rgba(255, 34, 85, 0.4), inset 0 0 15px rgba(0, 0, 0, 0.9);
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    letter-spacing: 2px;
+    width: 340px;
+    max-width: 88vw;
+    caret-color: var(--paso-nombre-input-borde);
+}
+
+#user-name-input:focus {
+    border-color: var(--paso-nombre-input-focus-borde);
+    color: var(--paso-nombre-input-focus-texto);
+    box-shadow: 0 0 30px var(--paso-nombre-input-focus-brillo), inset 0 0 20px rgba(114, 239, 255, 0.2);
+    transform: scale(1.05);
+}
+
+#user-name-input.error-shake {
+    border-color: var(--paso-nombre-error-color) !important;
+    box-shadow: 0 0 30px var(--paso-nombre-error-color), inset 0 0 20px rgba(255, 0, 51, 0.4) !important;
+    animation: inputErrorShake 0.4s ease-in-out;
+}
+
+#user-name-input.success-glow {
+    border-color: var(--paso-nombre-exito-color) !important;
+    color: var(--paso-nombre-exito-color) !important;
+    box-shadow: 0 0 35px var(--paso-nombre-exito-color), inset 0 0 20px rgba(0, 255, 136, 0.4) !important;
+    animation: inputSuccessPulse 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes inputErrorShake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-8px); }
+    40%, 80% { transform: translateX(8px); }
+}
+
+@keyframes inputSuccessPulse {
+    0%   { transform: scale(1.04); }
+    100% { transform: scale(1.08); filter: drop-shadow(0 0 12px var(--paso-nombre-exito-color)); }
+}
+
+.password-error {
+    color: var(--paso-nombre-error-color);
+    font: 22px var(--font-retro);
+    text-shadow: 0 0 10px var(--paso-nombre-error-color), 0 0 20px rgba(255, 0, 0, 0.6);
+    min-height: 28px;
+    margin-top: 5px;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.password-success {
+    color: var(--paso-nombre-exito-color) !important;
+    font: 22px var(--font-retro);
+    text-shadow: 0 0 10px var(--paso-nombre-exito-color), 0 0 25px var(--paso-nombre-exito-brillo) !important;
+    min-height: 28px;
+    margin-top: 5px;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.confirmar-nombre {
+    font: 24px var(--font-retro);
+    color: var(--paso-nombre-boton-texto);
+    cursor: pointer;
+    padding: 12px 24px;
+    border-radius: 6px;
+    background: var(--paso-nombre-boton-fondo);
+    border: 1px solid var(--paso-nombre-boton-borde);
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    text-shadow: 0 0 8px var(--paso-nombre-boton-texto);
+    letter-spacing: 1px;
+}
+
+.confirmar-nombre:hover {
+    transform: scale(1.08) translateY(-2px);
+    color: var(--paso-nombre-boton-hover-texto);
+    border-color: var(--paso-nombre-boton-hover-borde);
+    background: var(--paso-nombre-boton-hover-fondo);
+    text-shadow: 0 0 12px var(--paso-nombre-boton-hover-texto), 0 0 25px rgba(114, 239, 255, 0.6);
+}
+
+.suspense-title {
+    color: var(--paso-nombre-titulo-color) !important;
+    font-size: 26px !important;
+    text-shadow: 0 0 10px var(--paso-nombre-titulo-brillo), 0 0 25px rgba(255, 0, 50, 0.7), 0 0 50px rgba(150, 0, 50, 0.5) !important;
+    animation: suspenseGlow 2.5s ease-in-out infinite alternate;
+}
+
+.suspense-subtitle {
+    color: var(--paso-nombre-subtitulo-color) !important;
+    font-size: 24px !important;
+    text-shadow: 0 0 8px var(--paso-nombre-subtitulo-brillo), 0 0 18px rgba(180, 80, 255, 0.5) !important;
+}
+
+@keyframes suspenseGlow {
+    0%   { filter: drop-shadow(0 0 6px rgba(255, 0, 50, 0.5)); transform: scale(1); }
+    100% { filter: drop-shadow(0 0 22px var(--paso-nombre-titulo-brillo)); transform: scale(1.02); }
+}
+
+/* =========================================
    MOBILE: Simplificar efectos costosos
    ========================================= */
 @media screen and (max-width: 768px) {
@@ -363,3 +483,4 @@
         transform: translateY(0) translateZ(0);
     }
 }
+
