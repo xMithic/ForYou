@@ -14,7 +14,7 @@ const CANCION_FONDO_URL = "assets/audio/Musica.flac";
 const ENLACE_SPOTIFY = "https://open.spotify.com/intl-es/track/1FG7TNfGc5HNYauiobhZHk?si=a5b656613d21480f";
 
 // 3. Nombre Secreto / Contraseña de Acceso (Cámbialo por el nombre real que debe escribir el usuario)
-const NOMBRE_ACCESO_SECRETO = "Bby";
+const NOMBRE_ACCESO_SECRETO = "BbyBbyBby";
 
 // 4. Datos Manuales (SOLO se usan si ENLACE_SPOTIFY queda vacío "")
 const IMG_PORTADA_URL = "https://i.imgur.com/KX94WfX.png";
