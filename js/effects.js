@@ -171,6 +171,8 @@ let currentAtmosphere = 'default';
 const atmospheres = {
     default:    { bg: '#111' },
     adventure:  { bg: '#0d1117' },
+    suspense:   { bg: '#0d0408' },
+    success:    { bg: '#04150a' }, // Fondo verde oscuro para acceso concedido
     reveal:     { bg: '#110d15' },
     intimate:   { bg: '#150d0d' },
     celebration:{ bg: '#0d1510' }
@@ -219,9 +221,17 @@ function textDecodeEffect(element, finalText, duration) {
 // ==========================================
 // ⚡ FLASH CINEMÁTICO
 // ==========================================
-function triggerFlash(warm) {
+function triggerFlash(type) {
     const flash = document.createElement('div');
-    flash.className = 'screen-flash' + (warm ? ' screen-flash-warm' : '');
+    let flashClass = 'screen-flash';
+    if (type === 'green') {
+        flashClass += ' screen-flash-green';
+    } else if (type === 'red') {
+        flashClass += ' screen-flash-red';
+    } else if (type === 'warm' || type === true) {
+        flashClass += ' screen-flash-warm';
+    }
+    flash.className = flashClass;
     document.body.appendChild(flash);
     setTimeout(() => flash.remove(), 700);
 }

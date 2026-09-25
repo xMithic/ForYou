@@ -28,19 +28,135 @@ $('.si').on("click", function () {
     });
 });
 
-// f3 → f4 (Dale) — La revelación se acerca
+// Variable global para almacenar el nombre ingresado (tomado dinámicamente de config.js)
+function getSecretName() {
+    return (typeof NOMBRE_ACCESO_SECRETO !== 'undefined' && NOMBRE_ACCESO_SECRETO) ? NOMBRE_ACCESO_SECRETO : "Papa Fritas";
+}
+
+let currentUserName = getSecretName();
+
+function updateUserNameSpans(newName) {
+    currentUserName = newName || getSecretName();
+    $('.user-name-span').text(currentUserName);
+}
+
+$(document).ready(function() {
+    updateUserNameSpans(getSecretName());
+});
+
+// f3 → f4 (Dale) — Momento de suspenso + contraseña + sonido marrón
 $('.dale').on("click", function () {
-    setAtmosphere('reveal');
-    $('#f3').fadeOut(400, function() {
-        $('#f4').css('display', 'flex').hide().fadeIn(400);
+    setAtmosphere('suspense');
+    triggerChromaticFlash();
+
+    // Limpiar input y mensaje de error
+    $('#user-name-input').val('');
+    $('#password-error-msg').text('');
+
+    // Iniciar sonido marrón y suspenso sintetizado
+    if (typeof startBrownNoiseSuspense === 'function') {
+        startBrownNoiseSuspense();
+    }
+
+    $('#f3').fadeOut(300, function() {
+        $('#f4').css('display', 'flex').hide().fadeIn(400, function() {
+            // Desplegar automáticamente el teclado en Android / Móviles
+            const inputEl = document.getElementById('user-name-input');
+            if (inputEl) {
+                inputEl.focus();
+                inputEl.click();
+            }
+        });
         triggerSoundForNextScreen('#f4');
     });
 });
 
-// f4 → f5 (¿Un regalo?)
+// Forzar apertura de teclado en móvil al tocar cualquier parte del contenedor
+$(document).on('click touchstart', '.name-input-wrapper', function(e) {
+    const inputEl = document.getElementById('user-name-input');
+    if (inputEl && document.activeElement !== inputEl) {
+        inputEl.focus();
+        inputEl.click();
+    }
+});
+
+// Validar contraseña (f4 → f4b)
+function submitUserName() {
+    const rawVal = $('#user-name-input').val() || '';
+    const cleanVal = rawVal.trim().toLowerCase().replace(/\s+/g, ' ');
+    const cleanValNoSpace = cleanVal.replace(/\s+/g, '');
+
+    const secretName = getSecretName();
+    const cleanSecret = secretName.trim().toLowerCase().replace(/\s+/g, ' ');
+    const cleanSecretNoSpace = cleanSecret.replace(/\s+/g, '');
+
+    // Se acepta la contraseña configurada dinámicamente en NOMBRE_ACCESO_SECRETO
+    const isCorrect = (cleanVal === cleanSecret || cleanValNoSpace === cleanSecretNoSpace);
+    const $input = $('#user-name-input');
+    const $errorMsg = $('#password-error-msg');
+
+    if (!isCorrect) {
+        // ❌ Contraseña incorrecta: efecto horror / susto (rojo)
+        $input.removeClass('success-glow').addClass('error-shake');
+        setTimeout(() => $input.removeClass('error-shake'), 500);
+
+        $errorMsg.removeClass('password-success').addClass('password-error')
+                  .text('> ACCESO DENEGADO. ¡Esa no es la contraseña!');
+
+        triggerScreenShake();
+        triggerChromaticFlash();
+        if (typeof playClickSound === 'function') playClickSound();
+
+        $input.focus().select();
+        return; // BLOQUEAR: No pasa a la siguiente sección
+    }
+
+    // ✅ Contraseña correcta: Desbloquear regalo con el nombre secreto configurado
+    updateUserNameSpans(secretName);
+
+    // Cambiar la atmósfera y fondo inmediatamente a VERDE
+    setAtmosphere('success');
+
+    $input.removeClass('error-shake').addClass('success-glow');
+    $errorMsg.removeClass('password-error').addClass('password-success')
+              .text('> ACCESO CONCEDIDO. ¡BIENVENIDO/A, ' + secretName.toUpperCase() + '!');
+
+    if (typeof playClickSound === 'function') playClickSound();
+    triggerFlash('green'); // Flash verde deslumbrante
+    triggerChromaticFlash();
+    if (typeof spawnSparkles === 'function') spawnSparkles($input[0], 10);
+
+    // Detener sonido marrón y suspenso
+    if (typeof stopBrownNoiseSuspense === 'function') {
+        stopBrownNoiseSuspense();
+    }
+
+    // Pausa para que el usuario aprecie el estado y fondo verde de "ACCESO CONCEDIDO"
+    setTimeout(() => {
+        setAtmosphere('reveal');
+        $('#f4').fadeOut(500, function() {
+            $input.removeClass('success-glow');
+            $errorMsg.text('').removeClass('password-success');
+            $('#f4b').css('display', 'flex').hide().fadeIn(400);
+            triggerSoundForNextScreen('#f4b');
+        });
+    }, 750);
+}
+
+$(document).on('click', '.confirmar-nombre', function() {
+    submitUserName();
+});
+
+$(document).on('keypress', '#user-name-input', function(e) {
+    if (e.which === 13) { // Tecla Enter
+        submitUserName();
+    }
+});
+
+// f4b → f5 (¿Un regalo?)
 $('.rega').on("click", function () {
     triggerChromaticFlash();
-    $('#f4').fadeOut(400, function() {
+    $('#f4b').fadeOut(400, function() {
         $('#f5').css('display', 'flex').hide().fadeIn(400);
         triggerSoundForNextScreen('#f5');
     });
@@ -105,8 +221,23 @@ $('span.go').on("click", function () {
 
 // Reproducir canción
 $('.reproducir').on("click", function () {
+    // Si hay audio extraído desde el link de Spotify, asegurar asignación inmediata
+    if (window.spotifyAudioUrl && audioFondo.src !== window.spotifyAudioUrl) {
+        console.log('[Audio Player] Asignando pista enviada por Spotify:', window.spotifyAudioUrl);
+        audioFondo.src = window.spotifyAudioUrl;
+        audioFondo.load();
+    }
+
     audioFondo.currentTime = 0;
-    audioFondo.play().catch(e => {});
+    audioFondo.play().then(() => {
+        console.log('[Audio Player] Reproducción de audio iniciada correctamente.');
+    }).catch(e => {
+        console.warn('[Audio Player] Error al reproducir audio, usando fallback:', e);
+        if (CANCION_FONDO_URL && audioFondo.src !== CANCION_FONDO_URL) {
+            audioFondo.src = CANCION_FONDO_URL;
+            audioFondo.play().catch(() => {});
+        }
+    });
 
     triggerFlash(true);
 

@@ -1,59 +1,68 @@
 // ==========================================
 // ====== EFECTO MÁQUINA DE ESCRIBIR   ======
+// — Soporta HTML dinámico y limpia loops —
 // ==========================================
 
 let typeTimeouts = [];
 let typeIntervals = [];
 
-function triggerSoundForNextScreen(nextDivId) {
+function clearAllTypewriterLoops() {
     typeTimeouts.forEach(t => clearTimeout(t));
     typeTimeouts = [];
     typeIntervals.forEach(i => clearInterval(i));
     typeIntervals = [];
-
-    // Limpia cursores previos
     $('.typer-cursor').remove();
+}
 
-    const els = $(nextDivId).find('h1, h2, h3');
+function triggerSoundForNextScreen(nextDivId) {
+    clearAllTypewriterLoops();
 
-    els.each(function() {
+    const $container = $(nextDivId);
+    if (!$container.length) return;
+
+    // Forzar reseteo de animación de los botones de opción en esta pantalla
+    const $options = $container.find('.si, .no, .weno, .dale, .salu, .copy, .reproducir, span.go, .carta, .rega, .ojo, .afi, .anillo, .marry, .meme, .meme2, .yes, .confirmar-nombre');
+    $options.css({ 'animation': 'none', 'opacity': '0' });
+    void $container[0].offsetWidth; // Repaint
+    $options.css({ 'animation': '' });
+
+    const els = $container.find('h1, h2, h3');
+
+    els.each(function(index) {
         const $el = $(this);
+        
+        // Guardar la estructura HTML actual (incluyendo spans dinámicos)
+        const fullHTML = $el.html().trim();
+        const plainText = $el.text().trim();
 
-        if (!$el.data('original-text')) {
-            $el.data('original-text', $el.text().trim());
-        }
+        if (!plainText) return;
 
-        const text = $el.data('original-text');
-        if (!text) return;
-
-        $el.empty();
+        // Ocultar temporalmente para la animación de tipeo
         $el.css({ 'opacity': '0' });
 
-        const delay = $el.prop('tagName') === 'H2' ? 3500 : 0;
+        // Si contiene HTML complejo (como user-name-span), revelar suavemente con fade/typewriter inteligente
+        const delay = $el.prop('tagName') === 'H2' ? 1800 : (index * 600);
 
         let targetTimeout = setTimeout(() => {
             $('.typer-cursor').remove();
             $el.css({ 'opacity': '1' });
 
             let i = 0;
-            const speed = 3500 / text.length;
+            const speed = Math.max(25, Math.min(80, 2500 / plainText.length));
 
-            $el.append('<span class="typer-cursor"></span>');
+            $el.html('<span class="typer-cursor"></span>');
 
             let typeInterval = setInterval(() => {
-                let currentText = text.substring(0, i + 1);
-
-                // Highlight dinámico de "1-3-2"
-                let currentHTML = currentText.replace(/1-3-2/g, '<span style="color: #ffff00 !important; text-shadow: 0 0 10px #ffff00 !important;">1-3-2</span>');
-
-                $el.html(currentHTML);
-                $el.append('<span class="typer-cursor"></span>');
-
-                playUndertaleBlip();
                 i++;
-
-                if (i >= text.length) {
+                if (i >= plainText.length) {
                     clearInterval(typeInterval);
+                    $el.html(fullHTML); // Restaurar HTML completo al finalizar
+                    $('.typer-cursor').remove();
+                } else {
+                    let currentText = plainText.substring(0, i);
+                    let formattedHTML = currentText.replace(/1-3-2/g, '<span style="color: #ffff00 !important; text-shadow: 0 0 10px #ffff00 !important;">1-3-2</span>');
+                    $el.html(formattedHTML + '<span class="typer-cursor"></span>');
+                    playUndertaleBlip();
                 }
             }, speed);
 
@@ -64,3 +73,4 @@ function triggerSoundForNextScreen(nextDivId) {
         typeTimeouts.push(targetTimeout);
     });
 }
+
