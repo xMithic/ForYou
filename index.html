@@ -73,9 +73,21 @@
             </div>
         </div>
 
-        <!-- Pantalla 4: Revelación -->
+        <!-- Pantalla 4: Contraseña de Suspenso & Terror -->
         <div id="f4">
-            <h3>¡VALE, VALE, NO ME GRITES! Pero, debo decirte una cosa.</h3>
+            <h3 class="suspense-title">> ACCESO RESTRINGIDO. IDENTIFICACIÓN REQUERIDA.</h3>
+            <h2 class="suspense-subtitle">Clave Secreta-Nombre:</h2>
+            
+            <div class="name-input-wrapper">
+                <input type="text" id="user-name-input" value="" placeholder="Escribe la contraseña aquí..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" maxlength="30">
+                <div class="confirmar-nombre">> [ VALIDAR CONTRASEÑA ]</div>
+                <div id="password-error-msg" class="password-error"></div>
+            </div>
+        </div>
+
+        <!-- Pantalla 4b: Revelación -->
+        <div id="f4b">
+            <h3>¡VALE, VALE, PERFEECTOO, <span class="user-name-span">Papa Fritas</span>! Pero debo decirte una cosa.</h3>
             <h2>Te mentí, esto no es una aventura, es un regalo.</h2>
             <div class="decidir">
                 <div class="rega">> ¿un regalo? </div>
@@ -84,7 +96,7 @@
 
         <!-- Pantalla 5: Cerrar ojos -->
         <div id="f5">
-            <h3>¡justamente! un regalo para ti</h3>
+            <h3>¡justamente! un regalo para ti, <span class="user-name-span">Papa Fritas</span></h3>
             <h2>ahora, cierra los ojos, vamos a comenzar.</h2>
             <div class="decidir">
                 <div class="ojo">> uhm... /cerrar los ojos. </div>
@@ -94,7 +106,7 @@
         <!-- Pantalla 6: Imagen personaje -->
         <div id="f6">
             <div class="img1"> </div>
-            <h3>¡este eres tú! estas chiquito y hay que protegerte.</h3>
+            <h3>¡este eres tú, <span class="user-name-span">Papa Fritas</span>! estás chiquito y hay que protegerte.</h3>
             <h2>¡vamos a entrar! ¡afírmate bien!</h2>
             <div class="afi">> ¡p-pero! /todo comienza a temblar y te afirmas de todos modos. </div>
         </div>
@@ -192,7 +204,7 @@
                 </div>
 
                 <div id="f21">
-                    <h3>ichigo. una vez no ha sido suficiente y quiero oírlo de nuevo.</h3>
+                    <h3><span class="user-name-span">Papa Fritas</span>. una vez no ha sido suficiente y quiero oírlo de nuevo.</h3>
                     <h2>¿quieres casarte conmigo?</h2>
                     <div class="decidir">
                         <div class="yes">> ¡SIIII!</div>
